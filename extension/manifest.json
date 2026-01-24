@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "Poker Coach",
+  "version": "1.0.0",
+  "description": "KI-gestützter Poker-Trainingsassistent - Analysiere dein Spiel mit einem Hotkey",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "commands": {
+    "capture-and-analyze": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+P",
+        "mac": "Command+Shift+P"
+      },
+      "description": "Screenshot aufnehmen und analysieren"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "Poker Coach - Klicken zum Analysieren"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

@@ -1,0 +1,115 @@
+async function getApiUrl() {
+  const result = await chrome.storage.sync.get(["apiUrl"]);
+  return result.apiUrl || "http://localhost:5000";
+}
+
+async function setApiUrl(url) {
+  await chrome.storage.sync.set({ apiUrl: url });
+}
+
+chrome.commands.onCommand.addListener(async (command) => {
+  if (command === "capture-and-analyze") {
+    await captureAndAnalyze();
+  }
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "captureAndAnalyze") {
+    captureAndAnalyze().then(sendResponse);
+    return true;
+  }
+  if (request.action === "getApiUrl") {
+    getApiUrl().then(url => sendResponse({ apiUrl: url }));
+    return true;
+  }
+  if (request.action === "setApiUrl") {
+    setApiUrl(request.url).then(() => sendResponse({ success: true }));
+    return true;
+  }
+});
+
+async function captureAndAnalyze() {
+  let tabId = null;
+  
+  try {
+    const apiUrl = await getApiUrl();
+    
+    if (!apiUrl) {
+      throw new Error("Bitte setze die API-URL in den Einstellungen");
+    }
+
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    
+    if (!tab || !tab.id) {
+      throw new Error("Kein aktiver Tab gefunden");
+    }
+    
+    tabId = tab.id;
+    
+    await injectContentScriptIfNeeded(tabId);
+    await sendToContentScript(tabId, { action: "showLoading" });
+
+    const screenshotDataUrl = await chrome.tabs.captureVisibleTab(null, {
+      format: "png",
+      quality: 100
+    });
+
+    const response = await fetch(`${apiUrl}/api/analyze`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ image: screenshotDataUrl })
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.error || `API Fehler: ${response.status}`);
+    }
+
+    const analysis = await response.json();
+
+    await sendToContentScript(tabId, { 
+      action: "showResult", 
+      analysis 
+    });
+
+    return analysis;
+
+  } catch (error) {
+    console.error("Capture error:", error);
+    
+    if (tabId) {
+      try {
+        await sendToContentScript(tabId, { 
+          action: "showError", 
+          message: error.message || "Fehler bei der Analyse" 
+        });
+      } catch (e) {
+        console.error("Error showing error message:", e);
+      }
+    }
+    
+    return { error: error.message };
+  }
+}
+
+async function injectContentScriptIfNeeded(tabId) {
+  try {
+    await chrome.tabs.sendMessage(tabId, { action: "ping" });
+  } catch (error) {
+    await chrome.scripting.executeScript({
+      target: { tabId },
+      files: ["content.js"]
+    });
+    await chrome.scripting.insertCSS({
+      target: { tabId },
+      files: ["overlay.css"]
+    });
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+}
+
+async function sendToContentScript(tabId, message) {
+  return chrome.tabs.sendMessage(tabId, message);
+}

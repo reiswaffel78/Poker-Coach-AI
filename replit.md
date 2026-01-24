@@ -22,7 +22,18 @@ Preferred communication style: Simple, everyday language.
 - **Framework**: Express.js 5 running on Node.js with TypeScript
 - **API Design**: RESTful JSON API with endpoints under `/api/`
 - **AI Integration**: OpenAI API (via Replit AI Integrations) for vision-based poker screenshot analysis
+- **CORS**: Configured for Chrome/Firefox extensions (chrome-extension://, moz-extension://)
 - **Build System**: esbuild for server bundling, Vite for client bundling
+
+### Chrome Extension
+- **Location**: `extension/` folder
+- **Features**: 
+  - Hotkey capture (Ctrl+Shift+P) for instant screenshot analysis
+  - Overlay UI showing recommendations directly in browser
+  - Popup with settings for API URL configuration
+  - Storage sync for persistent settings
+- **Manifest Version**: 3 (Chrome MV3)
+- **Installation**: Load unpacked extension from `extension/` folder in chrome://extensions
 
 ### Data Storage
 - **ORM**: Drizzle ORM with PostgreSQL dialect
@@ -47,9 +58,17 @@ client/           # React frontend
 server/           # Express backend
   routes.ts       # API route definitions
   storage.ts      # Data persistence layer
+  index.ts        # Server entry with CORS for extensions
   replit_integrations/  # AI integration utilities
 shared/           # Shared types and schemas
   schema.ts       # Drizzle database schema
+extension/        # Chrome Browser Extension
+  manifest.json   # Extension configuration (MV3)
+  background.js   # Service worker for hotkeys and API calls
+  content.js      # Content script for overlay display
+  overlay.css     # Overlay styling
+  popup.html/js   # Extension popup UI
+  icons/          # Extension icons (16, 48, 128px)
 ```
 
 ## External Dependencies
