@@ -28,15 +28,28 @@ function showOverlay(content) {
   overlayContainer = document.createElement("div");
   overlayContainer.id = "poker-coach-overlay";
   overlayContainer.innerHTML = content;
+  
+  // Prevent page from removing our overlay
+  overlayContainer.style.cssText = `
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    z-index: 2147483647 !important;
+    display: block !important;
+    visibility: visible !important;
+  `;
+  
   document.body.appendChild(overlayContainer);
   
-  const closeBtn = overlayContainer.querySelector(".poker-coach-close");
-  if (closeBtn) {
-    closeBtn.addEventListener("click", hideOverlay);
-  }
+  const closeBtns = overlayContainer.querySelectorAll(".poker-coach-close");
+  closeBtns.forEach(btn => {
+    btn.addEventListener("click", hideOverlay);
+  });
   
   setTimeout(() => {
-    overlayContainer?.classList.add("poker-coach-visible");
+    if (overlayContainer) {
+      overlayContainer.classList.add("poker-coach-visible");
+    }
   }, 10);
 }
 

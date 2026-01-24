@@ -93,18 +93,24 @@ async function captureAndAnalyze() {
   } catch (error) {
     console.error("Capture error:", error);
     
+    const errorMsg = error.message || "Fehler bei der Analyse";
+    console.log("Error message to show:", errorMsg);
+    
     if (tabId) {
       try {
         await sendToContentScript(tabId, { 
           action: "showError", 
-          message: error.message || "Fehler bei der Analyse" 
+          message: errorMsg
         });
       } catch (e) {
         console.error("Error showing error message:", e);
+        // Try using chrome notifications as fallback
+        chrome.action.setBadgeText({ text: "!" });
+        chrome.action.setBadgeBackgroundColor({ color: "#ef4444" });
       }
     }
     
-    return { error: error.message };
+    return { error: errorMsg };
   }
 }
 
