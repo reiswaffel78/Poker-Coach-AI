@@ -43,9 +43,15 @@ async function captureAndAnalyze() {
   
   try {
     const apiUrl = await getApiUrl();
+    console.log("Using API URL:", apiUrl);
     
     if (!apiUrl) {
       throw new Error("Bitte setze die API-URL in den Einstellungen");
+    }
+    
+    // Validate URL format
+    if (!apiUrl.startsWith("http://") && !apiUrl.startsWith("https://")) {
+      throw new Error("API-URL muss mit http:// oder https:// beginnen");
     }
 
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -64,13 +70,19 @@ async function captureAndAnalyze() {
       quality: 100
     });
 
-    const response = await fetch(`${apiUrl}/api/analyze`, {
+    const fullUrl = `${apiUrl}/api/analyze`;
+    console.log("Sending request to:", fullUrl);
+    console.log("Screenshot size:", Math.round(screenshotDataUrl.length / 1024), "KB");
+    
+    const response = await fetch(fullUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({ image: screenshotDataUrl })
     });
+    
+    console.log("Response status:", response.status);
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
@@ -159,27 +171,33 @@ async function logError(error, context = "") {
 }
 
 async function downloadErrorLog() {
-  const result = await chrome.storage.local.get(["errorLogs"]);
-  const logs = result.errorLogs || [];
-  
-  if (logs.length === 0) {
-    return { success: false, message: "Keine Fehler protokolliert" };
+  try {
+    const result = await chrome.storage.local.get(["errorLogs"]);
+    const logs = result.errorLogs || [];
+    
+    if (logs.length === 0) {
+      return { success: false, message: "Keine Fehler protokolliert" };
+    }
+    
+    const logText = logs.map(log => 
+      `[${log.timestamp}] ${log.context}\nFehler: ${log.error}\n${log.stack ? `Stack: ${log.stack}\n` : ""}---\n`
+    ).join("\n");
+    
+    // Use data URL instead of blob URL for service worker compatibility
+    const base64 = btoa(unescape(encodeURIComponent(logText)));
+    const dataUrl = `data:text/plain;base64,${base64}`;
+    
+    await chrome.downloads.download({
+      url: dataUrl,
+      filename: `poker-coach-errors.log`,
+      saveAs: true
+    });
+    
+    return { success: true };
+  } catch (e) {
+    console.error("Download error:", e);
+    return { success: false, message: e.message };
   }
-  
-  const logText = logs.map(log => 
-    `[${log.timestamp}] ${log.context}\nFehler: ${log.error}\n${log.stack ? `Stack: ${log.stack}\n` : ""}---\n`
-  ).join("\n");
-  
-  const blob = new Blob([logText], { type: "text/plain" });
-  const url = URL.createObjectURL(blob);
-  
-  await chrome.downloads.download({
-    url: url,
-    filename: `poker-coach-errors-${new Date().toISOString().slice(0,10)}.log`,
-    saveAs: true
-  });
-  
-  return { success: true };
 }
 
 async function injectContentScriptIfNeeded(tabId) {
