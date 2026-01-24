@@ -25,41 +25,119 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 function showOverlay(content) {
   hideOverlay();
   
+  // Create overlay in a shadow DOM to prevent page interference
   overlayContainer = document.createElement("div");
-  overlayContainer.id = "poker-coach-overlay";
-  overlayContainer.innerHTML = content;
+  overlayContainer.id = "poker-coach-overlay-container";
   
-  // Prevent page from removing our overlay
-  overlayContainer.style.cssText = `
-    position: fixed !important;
-    top: 20px !important;
-    right: 20px !important;
-    z-index: 2147483647 !important;
-    display: block !important;
-    visibility: visible !important;
-  `;
+  const shadow = overlayContainer.attachShadow({ mode: 'closed' });
+  
+  const style = document.createElement("style");
+  style.textContent = getOverlayStyles();
+  
+  const wrapper = document.createElement("div");
+  wrapper.id = "poker-coach-overlay";
+  wrapper.innerHTML = content;
+  
+  shadow.appendChild(style);
+  shadow.appendChild(wrapper);
   
   document.body.appendChild(overlayContainer);
   
-  const closeBtns = overlayContainer.querySelectorAll(".poker-coach-close");
+  const closeBtns = shadow.querySelectorAll(".poker-coach-close");
   closeBtns.forEach(btn => {
     btn.addEventListener("click", hideOverlay);
   });
   
+  // Make visible after a brief delay
   setTimeout(() => {
-    if (overlayContainer) {
-      overlayContainer.classList.add("poker-coach-visible");
+    wrapper.classList.add("poker-coach-visible");
+  }, 50);
+}
+
+function getOverlayStyles() {
+  return `
+    #poker-coach-overlay {
+      position: fixed !important;
+      top: 20px !important;
+      right: 20px !important;
+      z-index: 2147483647 !important;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      opacity: 0;
+      transform: translateX(20px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
     }
-  }, 10);
+    #poker-coach-overlay.poker-coach-visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .poker-coach-card {
+      background: #1a1a2e;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      width: 320px;
+      max-width: calc(100vw - 40px);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .poker-coach-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .poker-coach-logo {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .poker-coach-logo svg { width: 18px; height: 18px; color: white; }
+    .poker-coach-logo-error { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+    .poker-coach-title { flex: 1; font-weight: 600; font-size: 14px; color: #fff; }
+    .poker-coach-close {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      font-size: 20px;
+      padding: 0;
+      line-height: 1;
+    }
+    .poker-coach-close:hover { color: #fff; }
+    .poker-coach-content { padding: 16px; color: #fff; }
+    .poker-coach-recommendation {
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    .poker-coach-confidence { text-align: center; font-size: 13px; color: rgba(255, 255, 255, 0.7); margin-bottom: 12px; }
+    .poker-coach-info { font-size: 13px; color: rgba(255, 255, 255, 0.9); margin-bottom: 8px; padding: 8px 10px; background: rgba(255, 255, 255, 0.05); border-radius: 6px; }
+    .poker-coach-info strong { color: #22c55e; }
+    .poker-coach-reasoning { font-size: 13px; line-height: 1.5; color: rgba(255, 255, 255, 0.8); margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+    .poker-coach-footer { padding: 12px 16px; background: rgba(0, 0, 0, 0.2); display: flex; justify-content: flex-end; }
+    .poker-coach-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; padding: 8px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; }
+    .poker-coach-btn:hover { background: rgba(255, 255, 255, 0.2); }
+    .poker-coach-spinner { width: 40px; height: 40px; border: 3px solid rgba(34, 197, 94, 0.2); border-top-color: #22c55e; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .poker-coach-loading-text { text-align: center; font-weight: 500; margin-bottom: 4px; }
+    .poker-coach-loading-subtext { text-align: center; font-size: 12px; color: rgba(255, 255, 255, 0.6); }
+    .poker-coach-error-text { color: #fca5a5; text-align: center; font-size: 14px; margin-bottom: 8px; }
+    .poker-coach-error-hint { color: rgba(255, 255, 255, 0.5); text-align: center; font-size: 12px; margin-top: 8px; }
+  `;
 }
 
 function hideOverlay() {
   if (overlayContainer) {
-    overlayContainer.classList.remove("poker-coach-visible");
-    setTimeout(() => {
-      overlayContainer?.remove();
-      overlayContainer = null;
-    }, 200);
+    overlayContainer.remove();
+    overlayContainer = null;
   }
 }
 
