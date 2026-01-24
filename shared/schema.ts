@@ -41,12 +41,12 @@ export type InsertHandAnalysis = z.infer<typeof insertHandAnalysisSchema>;
 export type HandAnalysis = typeof handAnalyses.$inferSelect;
 
 export const pokerAnalysisSchema = z.object({
-  heroCards: z.string().optional(),
-  communityCards: z.string().optional(),
-  position: z.string().optional(),
-  potSize: z.string().optional(),
-  stackSize: z.string().optional(),
-  villainAction: z.string().optional(),
+  heroCards: z.string().nullable().optional(),
+  communityCards: z.string().nullable().optional(),
+  position: z.string().nullable().optional(),
+  potSize: z.string().nullable().optional(),
+  stackSize: z.string().nullable().optional(),
+  villainAction: z.string().nullable().optional(),
   recommendation: z.enum(["FOLD", "CHECK", "CALL", "RAISE", "ALL-IN"]),
   reasoning: z.string(),
   confidence: z.number().min(0).max(100),
