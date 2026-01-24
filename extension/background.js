@@ -86,18 +86,21 @@ async function captureAndAnalyze() {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
+      console.log("Error response:", errorData);
+      
       let errorMessage = "Analyse fehlgeschlagen";
       
       if (response.status === 413) {
         errorMessage = "Screenshot zu groß";
       } else if (response.status === 429) {
         errorMessage = "Zu viele Anfragen - bitte warte kurz";
+      } else if (errorData.error) {
+        errorMessage = errorData.error;
+        if (errorData.debug) {
+          console.log("Debug info from server:", errorData.debug);
+        }
       } else if (response.status >= 500) {
         errorMessage = "Server-Fehler - bitte später erneut versuchen";
-      } else if (errorData.error) {
-        errorMessage = errorData.error.length > 100 
-          ? "Analyse fehlgeschlagen - bitte erneut versuchen" 
-          : errorData.error;
       }
       
       throw new Error(errorMessage);

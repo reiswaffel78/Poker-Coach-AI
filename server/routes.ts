@@ -131,18 +131,26 @@ export async function registerRoutes(
       console.error("Error analyzing screenshot:", error);
       
       let errorMessage = "Analyse fehlgeschlagen - bitte erneut versuchen";
+      let debugInfo = "";
       
       if (error instanceof Error) {
+        debugInfo = error.message;
+        
         if (error.message.includes("rate limit") || error.message.includes("429")) {
           errorMessage = "Zu viele Anfragen - bitte warte kurz";
-        } else if (error.message.includes("API key") || error.message.includes("authentication")) {
+        } else if (error.message.includes("API key") || error.message.includes("authentication") || error.message.includes("Unauthorized")) {
           errorMessage = "API-Konfigurationsfehler";
         } else if (error.message.includes("JSON")) {
           errorMessage = "KI-Antwort konnte nicht verarbeitet werden";
+        } else if (error.message.includes("timeout") || error.message.includes("ETIMEDOUT")) {
+          errorMessage = "Zeitüberschreitung - bitte erneut versuchen";
+        } else if (error.message.includes("model")) {
+          errorMessage = "KI-Modell nicht verfügbar";
         }
       }
       
-      res.status(500).json({ error: errorMessage });
+      console.error("Debug info:", debugInfo);
+      res.status(500).json({ error: errorMessage, debug: debugInfo });
     }
   });
 
