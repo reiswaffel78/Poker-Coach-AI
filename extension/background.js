@@ -26,6 +26,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     setApiUrl(request.url).then(() => sendResponse({ success: true }));
     return true;
   }
+  if (request.action === "downloadErrorLog") {
+    downloadErrorLog().then(sendResponse);
+    return true;
+  }
+  if (request.action === "getErrorCount") {
+    chrome.storage.local.get(["errorLogs"]).then(result => {
+      sendResponse({ count: (result.errorLogs || []).length });
+    });
+    return true;
+  }
 });
 
 async function captureAndAnalyze() {
@@ -96,6 +106,9 @@ async function captureAndAnalyze() {
     const errorMsg = error.message || "Fehler bei der Analyse";
     console.log("Error message to show:", errorMsg);
     
+    // Log error for later download
+    await logError(error, "captureAndAnalyze");
+    
     if (tabId) {
       try {
         await sendToContentScript(tabId, { 
@@ -122,6 +135,51 @@ function showNotification(title, message) {
     message: message.length > 100 ? message.substring(0, 100) + "..." : message,
     priority: 2
   });
+}
+
+async function logError(error, context = "") {
+  const timestamp = new Date().toISOString();
+  const logEntry = {
+    timestamp,
+    context,
+    error: error.toString(),
+    stack: error.stack || ""
+  };
+  
+  // Get existing logs
+  const result = await chrome.storage.local.get(["errorLogs"]);
+  const logs = result.errorLogs || [];
+  
+  // Add new log (keep last 50)
+  logs.push(logEntry);
+  if (logs.length > 50) logs.shift();
+  
+  await chrome.storage.local.set({ errorLogs: logs });
+  console.log("Error logged:", logEntry);
+}
+
+async function downloadErrorLog() {
+  const result = await chrome.storage.local.get(["errorLogs"]);
+  const logs = result.errorLogs || [];
+  
+  if (logs.length === 0) {
+    return { success: false, message: "Keine Fehler protokolliert" };
+  }
+  
+  const logText = logs.map(log => 
+    `[${log.timestamp}] ${log.context}\nFehler: ${log.error}\n${log.stack ? `Stack: ${log.stack}\n` : ""}---\n`
+  ).join("\n");
+  
+  const blob = new Blob([logText], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  
+  await chrome.downloads.download({
+    url: url,
+    filename: `poker-coach-errors-${new Date().toISOString().slice(0,10)}.log`,
+    saveAs: true
+  });
+  
+  return { success: true };
 }
 
 async function injectContentScriptIfNeeded(tabId) {

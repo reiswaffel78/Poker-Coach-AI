@@ -209,6 +209,12 @@
       background: rgba(255, 255, 255, 0.2);
     }
     
+    .error-log-section {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
     .connection-status {
       margin-top: 8px;
       font-size: 11px;
@@ -292,6 +298,19 @@
         <div class="status-dot checking"></div>
         <span>Verbindung wird geprüft...</span>
       </div>
+    </div>
+    
+    <div class="error-log-section" id="errorLogSection" style="display: none;">
+      <div class="settings-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+        Fehler-Log
+      </div>
+      <button id="downloadLogBtn" class="save-btn" style="width: 100%;">
+        Fehler-Log herunterladen (<span id="errorCount">0</span> Einträge)
+      </button>
     </div>
   </div>
   

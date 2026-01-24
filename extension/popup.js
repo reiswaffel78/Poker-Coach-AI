@@ -5,12 +5,26 @@ document.addEventListener("DOMContentLoaded", async () => {
   const apiUrlInput = document.getElementById("apiUrl");
   const saveBtn = document.getElementById("saveBtn");
   const connectionStatus = document.getElementById("connectionStatus");
+  const downloadLogBtn = document.getElementById("downloadLogBtn");
+  const errorLogSection = document.getElementById("errorLogSection");
+  const errorCountSpan = document.getElementById("errorCount");
   
   const response = await chrome.runtime.sendMessage({ action: "getApiUrl" });
   if (response && response.apiUrl) {
     apiUrlInput.value = response.apiUrl;
     checkConnection(response.apiUrl);
   }
+  
+  // Check for error logs
+  const errorResponse = await chrome.runtime.sendMessage({ action: "getErrorCount" });
+  if (errorResponse && errorResponse.count > 0) {
+    errorLogSection.style.display = "block";
+    errorCountSpan.textContent = errorResponse.count;
+  }
+  
+  downloadLogBtn.addEventListener("click", async () => {
+    await chrome.runtime.sendMessage({ action: "downloadErrorLog" });
+  });
   
   analyzeBtn.addEventListener("click", async () => {
     analyzeBtn.classList.add("loading");

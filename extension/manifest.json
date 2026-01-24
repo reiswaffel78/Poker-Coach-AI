@@ -7,7 +7,8 @@
     "activeTab",
     "scripting",
     "storage",
-    "notifications"
+    "notifications",
+    "downloads"
   ],
   "commands": {
     "capture-and-analyze": {
