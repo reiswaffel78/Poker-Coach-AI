@@ -1,0 +1,408 @@
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+async function getApiUrl() {
+  const result = await chrome.storage.sync.get(["apiUrl"]);
+  return result.apiUrl || "http://localhost:5000";
+}
+
+async function setApiUrl(url) {
+  await chrome.storage.sync.set({ apiUrl: url });
+}
+
+chrome.commands.onCommand.addListener(async (command) => {
+  if (command === "capture-and-analyze") {
+    await captureAndAnalyze();
+  }
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "captureAndAnalyze") {
+    captureAndAnalyze().then(sendResponse);
+    return true;
+  }
+  if (request.action === "getApiUrl") {
+    getApiUrl().then(url => sendResponse({ apiUrl: url }));
+    return true;
+  }
+  if (request.action === "setApiUrl") {
+    setApiUrl(request.url).then(() => sendResponse({ success: true }));
+    return true;
+  }
+  if (request.action === "downloadErrorLog") {
+    downloadErrorLog().then(sendResponse);
+    return true;
+  }
+  if (request.action === "getErrorCount") {
+    chrome.storage.local.get(["errorLogs"]).then(result => {
+      sendResponse({ count: (result.errorLogs || []).length });
+    });
+    return true;
+  }
+});
+
+async function captureAndAnalyze() {
+  let tabId = null;
+  
+  try {
+    const apiUrl = await getApiUrl();
+    
+    if (!apiUrl) {
+      throw new Error("Bitte setze die API-URL in den Einstellungen");
+    }
+
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    
+    if (!tab || !tab.id) {
+      throw new Error("Kein aktiver Tab gefunden");
+    }
+    
+    tabId = tab.id;
+    
+    await injectContentScriptIfNeeded(tabId);
+    await sendToContentScript(tabId, { action: "showLoading" });
+
+    const screenshotDataUrl = await chrome.tabs.captureVisibleTab(null, {
+      format: "png",
+      quality: 100
+    });
+
+    const response = await fetch(`${apiUrl}/api/analyze`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ image: screenshotDataUrl })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      let errorMessage = "Analyse fehlgeschlagen";
+      
+      if (response.status === 413) {
+        errorMessage = "Screenshot zu groß";
+      } else if (response.status === 429) {
+        errorMessage = "Zu viele Anfragen - bitte warte kurz";
+      } else if (response.status >= 500) {
+        errorMessage = "Server-Fehler - bitte später erneut versuchen";
+      } else if (errorData.error) {
+        errorMessage = errorData.error.length > 100 
+          ? "Analyse fehlgeschlagen - bitte erneut versuchen" 
+          : errorData.error;
+      }
+      
+      throw new Error(errorMessage);
+    }
+
+    const analysis = await response.json();
+
+    await sendToContentScript(tabId, { 
+      action: "showResult", 
+      analysis 
+    });
+
+    return analysis;
+
+  } catch (error) {
+    console.error("Capture error:", error);
+    
+    const errorMsg = error.message || "Fehler bei der Analyse";
+    console.log("Error message to show:", errorMsg);
+    
+    // Log error for later download
+    await logError(error, "captureAndAnalyze");
+    
+    if (tabId) {
+      try {
+        await sendToContentScript(tabId, { 
+          action: "showError", 
+          message: errorMsg
+        });
+      } catch (e) {
+        console.error("Error showing error message:", e);
+      }
+    }
+    
+    // Always show notification as backup
+    showNotification("Fehler", errorMsg);
+    
+    return { error: errorMsg };
+  }
+}
+
+function showNotification(title, message) {
+  chrome.notifications.create({
+    type: "basic",
+    iconUrl: "icons/icon128.png",
+    title: `Poker Coach: ${title}`,
+    message: message.length > 100 ? message.substring(0, 100) + "..." : message,
+    priority: 2
+  });
+}
+
+async function logError(error, context = "") {
+  const timestamp = new Date().toISOString();
+  const logEntry = {
+    timestamp,
+    context,
+    error: error.toString(),
+    stack: error.stack || ""
+  };
+  
+  // Get existing logs
+  const result = await chrome.storage.local.get(["errorLogs"]);
+  const logs = result.errorLogs || [];
+  
+  // Add new log (keep last 50)
+  logs.push(logEntry);
+  if (logs.length > 50) logs.shift();
+  
+  await chrome.storage.local.set({ errorLogs: logs });
+  console.log("Error logged:", logEntry);
+}
+
+async function downloadErrorLog() {
+  const result = await chrome.storage.local.get(["errorLogs"]);
+  const logs = result.errorLogs || [];
+  
+  if (logs.length === 0) {
+    return { success: false, message: "Keine Fehler protokolliert" };
+  }
+  
+  const logText = logs.map(log => 
+    `[${log.timestamp}] ${log.context}\nFehler: ${log.error}\n${log.stack ? `Stack: ${log.stack}\n` : ""}---\n`
+  ).join("\n");
+  
+  const blob = new Blob([logText], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  
+  await chrome.downloads.download({
+    url: url,
+    filename: `poker-coach-errors-${new Date().toISOString().slice(0,10)}.log`,
+    saveAs: true
+  });
+  
+  return { success: true };
+}
+
+async function injectContentScriptIfNeeded(tabId) {
+  try {
+    await chrome.tabs.sendMessage(tabId, { action: "ping" });
+  } catch (error) {
+    await chrome.scripting.executeScript({
+      target: { tabId },
+      files: ["content.js"]
+    });
+    await chrome.scripting.insertCSS({
+      target: { tabId },
+      files: ["overlay.css"]
+    });
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+}
+
+async function sendToContentScript(tabId, message) {
+  return chrome.tabs.sendMessage(tabId, message);
+}
+ 
