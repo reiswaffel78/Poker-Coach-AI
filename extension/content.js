@@ -141,6 +141,12 @@ function createResultContent(analysis) {
 }
 
 function createErrorContent(message) {
+  // Clean up technical error messages
+  let cleanMessage = message;
+  if (message.length > 150 || message.includes("{") || message.includes("Error:")) {
+    cleanMessage = "Analyse fehlgeschlagen - bitte erneut versuchen";
+  }
+  
   return `
     <div class="poker-coach-card poker-coach-error">
       <div class="poker-coach-header">
@@ -153,7 +159,8 @@ function createErrorContent(message) {
         <button class="poker-coach-close" aria-label="Schließen">&times;</button>
       </div>
       <div class="poker-coach-content">
-        <p class="poker-coach-error-text">${message}</p>
+        <p class="poker-coach-error-text">${cleanMessage}</p>
+        <p class="poker-coach-error-hint">Drücke Ctrl+Shift+P um es erneut zu versuchen</p>
       </div>
       <div class="poker-coach-footer">
         <button class="poker-coach-close poker-coach-btn">Schließen</button>

@@ -104,14 +104,24 @@ async function captureAndAnalyze() {
         });
       } catch (e) {
         console.error("Error showing error message:", e);
-        // Try using chrome notifications as fallback
-        chrome.action.setBadgeText({ text: "!" });
-        chrome.action.setBadgeBackgroundColor({ color: "#ef4444" });
       }
     }
     
+    // Always show notification as backup
+    showNotification("Fehler", errorMsg);
+    
     return { error: errorMsg };
   }
+}
+
+function showNotification(title, message) {
+  chrome.notifications.create({
+    type: "basic",
+    iconUrl: "icons/icon128.png",
+    title: `Poker Coach: ${title}`,
+    message: message.length > 100 ? message.substring(0, 100) + "..." : message,
+    priority: 2
+  });
 }
 
 async function injectContentScriptIfNeeded(tabId) {
