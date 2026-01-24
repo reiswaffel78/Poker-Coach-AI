@@ -49,7 +49,7 @@ export const pokerAnalysisSchema = z.object({
   villainAction: z.string().nullable().optional(),
   recommendation: z.enum(["FOLD", "CHECK", "CALL", "RAISE", "ALL-IN"]),
   reasoning: z.string(),
-  confidence: z.number().min(0).max(100),
+  confidence: z.number().min(0).max(100).nullable().optional(),
 });
 
 export type PokerAnalysis = z.infer<typeof pokerAnalysisSchema>;
