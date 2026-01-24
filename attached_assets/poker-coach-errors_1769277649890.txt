@@ -1,0 +1,20 @@
+[2026-01-24T17:48:43.774Z] captureAndAnalyze
+Fehler: TypeError: Failed to fetch
+Stack: TypeError: Failed to fetch
+    at captureAndAnalyze (chrome-extension://jbdhkjhmcnojampclhfifhmaelnjheli/background.js:77:28)
+    at async chrome-extension://jbdhkjhmcnojampclhfifhmaelnjheli/background.js:12:5
+---
+
+[2026-01-24T17:59:01.384Z] captureAndAnalyze
+Fehler: Error: Analyse fehlgeschlagen - bitte erneut versuchen
+Stack: Error: Analyse fehlgeschlagen - bitte erneut versuchen
+    at captureAndAnalyze (chrome-extension://jbdhkjhmcnojampclhfifhmaelnjheli/background.js:106:13)
+    at async chrome-extension://jbdhkjhmcnojampclhfifhmaelnjheli/background.js:12:5
+---
+
+[2026-01-24T17:59:28.194Z] captureAndAnalyze
+Fehler: Error: Analyse fehlgeschlagen - bitte erneut versuchen
+Stack: Error: Analyse fehlgeschlagen - bitte erneut versuchen
+    at captureAndAnalyze (chrome-extension://jbdhkjhmcnojampclhfifhmaelnjheli/background.js:106:13)
+    at async chrome-extension://jbdhkjhmcnojampclhfifhmaelnjheli/background.js:12:5
+---
