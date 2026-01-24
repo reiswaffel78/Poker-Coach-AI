@@ -130,11 +130,19 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error analyzing screenshot:", error);
       
+      let errorMessage = "Analyse fehlgeschlagen - bitte erneut versuchen";
+      
       if (error instanceof Error) {
-        res.status(500).json({ error: error.message });
-      } else {
-        res.status(500).json({ error: "Failed to analyze screenshot" });
+        if (error.message.includes("rate limit") || error.message.includes("429")) {
+          errorMessage = "Zu viele Anfragen - bitte warte kurz";
+        } else if (error.message.includes("API key") || error.message.includes("authentication")) {
+          errorMessage = "API-Konfigurationsfehler";
+        } else if (error.message.includes("JSON")) {
+          errorMessage = "KI-Antwort konnte nicht verarbeitet werden";
+        }
       }
+      
+      res.status(500).json({ error: errorMessage });
     }
   });
 

@@ -63,8 +63,22 @@ async function captureAndAnalyze() {
     });
 
     if (!response.ok) {
-      const error = await response.json().catch(() => ({}));
-      throw new Error(error.error || `API Fehler: ${response.status}`);
+      const errorData = await response.json().catch(() => ({}));
+      let errorMessage = "Analyse fehlgeschlagen";
+      
+      if (response.status === 413) {
+        errorMessage = "Screenshot zu groß";
+      } else if (response.status === 429) {
+        errorMessage = "Zu viele Anfragen - bitte warte kurz";
+      } else if (response.status >= 500) {
+        errorMessage = "Server-Fehler - bitte später erneut versuchen";
+      } else if (errorData.error) {
+        errorMessage = errorData.error.length > 100 
+          ? "Analyse fehlgeschlagen - bitte erneut versuchen" 
+          : errorData.error;
+      }
+      
+      throw new Error(errorMessage);
     }
 
     const analysis = await response.json();
