@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "wouter";
 import { useTranslation } from "react-i18next";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -89,6 +90,37 @@ export default function Landing() {
       answer: "Yes! Our Chrome extension lets you capture and analyze hands with a single hotkey (Ctrl+Shift+P). The recommendation appears as an overlay directly in your browser."
     }
   ];
+
+  useEffect(() => {
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.id = 'faqpage-schema';
+    script.text = JSON.stringify(faqSchema);
+    
+    const existing = document.getElementById('faqpage-schema');
+    if (existing) {
+      existing.remove();
+    }
+    document.head.appendChild(script);
+
+    return () => {
+      const el = document.getElementById('faqpage-schema');
+      if (el) el.remove();
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
