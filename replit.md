@@ -17,6 +17,7 @@ Preferred communication style: Simple, everyday language.
 - **UI Components**: shadcn/ui component library with Radix UI primitives
 - **Styling**: Tailwind CSS with CSS custom properties for theming (light/dark mode support)
 - **Design Theme**: Poker-themed green felt color scheme
+- **Internationalization**: react-i18next with browser language detection, supports German (de) and English (en)
 
 ### Backend Architecture
 - **Framework**: Express.js 5 running on Node.js with TypeScript
