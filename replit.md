@@ -2,7 +2,7 @@
 
 ## Overview
 
-Poker Coach is an AI-powered poker training assistant that analyzes poker screenshots and provides strategic hand recommendations. Users upload screenshots of their poker games, and the system uses OpenAI's vision capabilities to extract game state information (hole cards, community cards, position, pot size, stack sizes, villain actions) and delivers actionable recommendations (FOLD, CHECK, CALL, RAISE, ALL-IN) with detailed reasoning in German.
+Poker Coach is an AI-powered poker training assistant that analyzes poker screenshots and provides strategic hand recommendations. Users upload screenshots of their poker games, and the system uses Google Gemini's vision capabilities (via Replit AI Integrations) to extract game state information (hole cards, community cards, position, pot size, stack sizes, villain actions) and delivers actionable recommendations (FOLD, CHECK, CALL, RAISE, ALL-IN) with detailed reasoning in German.
 
 ## User Preferences
 
@@ -21,7 +21,7 @@ Preferred communication style: Simple, everyday language.
 ### Backend Architecture
 - **Framework**: Express.js 5 running on Node.js with TypeScript
 - **API Design**: RESTful JSON API with endpoints under `/api/`
-- **AI Integration**: OpenAI API (via Replit AI Integrations) for vision-based poker screenshot analysis
+- **AI Integration**: Google Gemini API (via Replit AI Integrations) for vision-based poker screenshot analysis
 - **CORS**: Configured for Chrome/Firefox extensions (chrome-extension://, moz-extension://)
 - **Build System**: esbuild for server bundling, Vite for client bundling
 
@@ -74,8 +74,9 @@ extension/        # Chrome Browser Extension
 ## External Dependencies
 
 ### AI Services
-- **OpenAI API**: Used via Replit AI Integrations for poker screenshot analysis and text generation
-- **Environment Variables**: `AI_INTEGRATIONS_OPENAI_API_KEY` and `AI_INTEGRATIONS_OPENAI_BASE_URL`
+- **Google Gemini API**: Used via Replit AI Integrations for poker screenshot analysis (gemini-2.5-flash model)
+- **Environment Variables**: `AI_INTEGRATIONS_GEMINI_API_KEY` and `AI_INTEGRATIONS_GEMINI_BASE_URL`
+- **Cost**: Uses Replit Credits, significantly cheaper than OpenAI with generous free tier
 
 ### Database
 - **PostgreSQL**: Primary database (requires `DATABASE_URL` environment variable)

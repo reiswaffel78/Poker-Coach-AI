@@ -1,15 +1,18 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import OpenAI from "openai";
+import { GoogleGenAI } from "@google/genai";
 import archiver from "archiver";
 import path from "path";
 import fs from "fs";
 import { pokerAnalysisSchema } from "@shared/schema";
 
-const openai = new OpenAI({
-  apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
-  baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+const ai = new GoogleGenAI({
+  apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY,
+  httpOptions: {
+    apiVersion: "",
+    baseUrl: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL,
+  },
 });
 
 const POKER_ANALYSIS_PROMPT = `Du bist ein erfahrener professioneller Pokerspieler und Coach. Analysiere den folgenden Poker-Screenshot und gib eine fundierte Handlungsempfehlung.
@@ -25,7 +28,7 @@ Gib dann eine klare Empfehlung: FOLD, CHECK, CALL, RAISE oder ALL-IN.
 
 Erkläre deine Empfehlung auf Deutsch mit einer detaillierten Begründung, die auf Pot Odds, Equity, Position und Gegnertendenzen eingeht.
 
-Antworte im folgenden JSON-Format:
+Antworte NUR mit validem JSON im folgenden Format (keine Markdown-Codeblöcke):
 {
   "heroCards": "z.B. 'As Kh' oder null wenn nicht sichtbar",
   "communityCards": "z.B. 'Qh Jd 5c 2s' oder null wenn Preflop",
@@ -35,7 +38,7 @@ Antworte im folgenden JSON-Format:
   "villainAction": "z.B. 'Raise 3BB', 'All-In' oder null",
   "recommendation": "FOLD | CHECK | CALL | RAISE | ALL-IN",
   "reasoning": "Ausführliche deutsche Begründung für die Empfehlung...",
-  "confidence": 0-100
+  "confidence": 85
 }`;
 
 export async function registerRoutes(
@@ -69,7 +72,7 @@ export async function registerRoutes(
     }
   });
 
-  // Analyze screenshot
+  // Analyze screenshot with Gemini
   app.post("/api/analyze", async (req, res) => {
     try {
       const { image } = req.body;
@@ -78,46 +81,62 @@ export async function registerRoutes(
         return res.status(400).json({ error: "Image data is required" });
       }
 
-      // Extract base64 data from data URL if present
+      // Extract base64 data and mime type from data URL
       let imageData = image;
+      let mimeType = "image/png";
+      
       if (image.startsWith("data:")) {
-        imageData = image.split(",")[1];
+        const matches = image.match(/^data:([^;]+);base64,(.+)$/);
+        if (matches) {
+          mimeType = matches[1];
+          imageData = matches[2];
+        } else {
+          imageData = image.split(",")[1];
+        }
       }
 
-      const response = await openai.chat.completions.create({
-        model: "gpt-4o",
-        messages: [
+      // Use Gemini for vision analysis
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: [
           {
             role: "user",
-            content: [
+            parts: [
+              { text: POKER_ANALYSIS_PROMPT },
               {
-                type: "text",
-                text: POKER_ANALYSIS_PROMPT,
-              },
-              {
-                type: "image_url",
-                image_url: {
-                  url: `data:image/png;base64,${imageData}`,
+                inlineData: {
+                  mimeType: mimeType,
+                  data: imageData,
                 },
               },
             ],
           },
         ],
-        max_completion_tokens: 2048,
-        response_format: { type: "json_object" },
       });
 
-      const content = response.choices[0]?.message?.content;
+      const content = response.text;
       if (!content) {
         throw new Error("No response from AI");
       }
 
-      const parsed = JSON.parse(content);
+      // Clean up potential markdown code blocks
+      let cleanedContent = content.trim();
+      if (cleanedContent.startsWith("```json")) {
+        cleanedContent = cleanedContent.slice(7);
+      } else if (cleanedContent.startsWith("```")) {
+        cleanedContent = cleanedContent.slice(3);
+      }
+      if (cleanedContent.endsWith("```")) {
+        cleanedContent = cleanedContent.slice(0, -3);
+      }
+      cleanedContent = cleanedContent.trim();
+
+      const parsed = JSON.parse(cleanedContent);
       const analysis = pokerAnalysisSchema.parse(parsed);
 
       // Save to storage
-      const saved = await storage.createAnalysis({
-        screenshotUrl: image.length > 1000 ? null : image, // Don't store large base64 strings
+      await storage.createAnalysis({
+        screenshotUrl: image.length > 1000 ? null : image,
         heroCards: analysis.heroCards || null,
         communityCards: analysis.communityCards || null,
         position: analysis.position || null,
@@ -126,7 +145,7 @@ export async function registerRoutes(
         villainAction: analysis.villainAction || null,
         recommendation: analysis.recommendation,
         reasoning: analysis.reasoning,
-        confidence: analysis.confidence,
+        confidence: analysis.confidence ?? null,
       });
 
       res.json(analysis);
@@ -139,7 +158,7 @@ export async function registerRoutes(
       if (error instanceof Error) {
         debugInfo = error.message;
         
-        if (error.message.includes("rate limit") || error.message.includes("429")) {
+        if (error.message.includes("rate limit") || error.message.includes("429") || error.message.includes("RATELIMIT")) {
           errorMessage = "Zu viele Anfragen - bitte warte kurz";
         } else if (error.message.includes("API key") || error.message.includes("authentication") || error.message.includes("Unauthorized")) {
           errorMessage = "API-Konfigurationsfehler";
@@ -173,7 +192,9 @@ export async function registerRoutes(
       
       archive.on("error", (err) => {
         console.error("Archive error:", err);
-        res.status(500).json({ error: "Failed to create ZIP" });
+        if (!res.headersSent) {
+          res.status(500).json({ error: "Failed to create ZIP" });
+        }
       });
 
       archive.pipe(res);
@@ -181,7 +202,9 @@ export async function registerRoutes(
       await archive.finalize();
     } catch (error) {
       console.error("Error creating extension ZIP:", error);
-      res.status(500).json({ error: "Failed to download extension" });
+      if (!res.headersSent) {
+        res.status(500).json({ error: "Failed to download extension" });
+      }
     }
   });
 
