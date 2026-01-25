@@ -18,6 +18,8 @@ import Wiki from "@/pages/Wiki";
 import WikiDetail from "@/pages/WikiDetail";
 import FamousHands from "@/pages/FamousHands";
 import FamousHandDetail from "@/pages/FamousHandDetail";
+import Quiz from "@/pages/Quiz";
+import Ranges from "@/pages/Ranges";
 import NotFound from "@/pages/not-found";
 import "./lib/i18n";
 
@@ -36,6 +38,8 @@ function Router() {
       <Route path="/wiki/:slug" component={WikiDetail} />
       <Route path="/famous-hands" component={FamousHands} />
       <Route path="/famous-hands/:slug" component={FamousHandDetail} />
+      <Route path="/quiz" component={Quiz} />
+      <Route path="/ranges" component={Ranges} />
       <Route component={NotFound} />
     </Switch>
   );

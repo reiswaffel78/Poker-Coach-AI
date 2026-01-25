@@ -13,9 +13,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Spade, History, Plus, Zap, HelpCircle } from "lucide-react";
+import { Spade, History, Plus, Zap, HelpCircle, Flame, Brain } from "lucide-react";
 import type { HandAnalysis, PokerAnalysis } from "@shared/schema";
+
+type AnalysisMode = "normal" | "roast";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -26,14 +29,16 @@ export default function Home() {
   const [currentAnalysis, setCurrentAnalysis] = useState<PokerAnalysis | null>(null);
   const [currentScreenshot, setCurrentScreenshot] = useState<string | null>(null);
   const [selectedHistoryId, setSelectedHistoryId] = useState<number | undefined>(undefined);
+  const [analysisMode, setAnalysisMode] = useState<AnalysisMode>("normal");
+  const [wasRoastMode, setWasRoastMode] = useState(false);
 
   const { data: history = [], isLoading: historyLoading } = useQuery<HandAnalysis[]>({
     queryKey: ["/api/analyses"],
   });
 
   const analyzeMutation = useMutation({
-    mutationFn: async (imageData: string) => {
-      const response = await apiRequest("POST", "/api/analyze", { image: imageData });
+    mutationFn: async ({ imageData, mode }: { imageData: string; mode: AnalysisMode }) => {
+      const response = await apiRequest("POST", "/api/analyze", { image: imageData, mode });
       return response.json();
     },
     onSuccess: (data: PokerAnalysis) => {
@@ -41,8 +46,10 @@ export default function Home() {
       setSelectedHistoryId(undefined);
       queryClient.invalidateQueries({ queryKey: ["/api/analyses"] });
       toast({
-        title: t("analysis.complete"),
-        description: `${t("analysis.recommendation")}: ${data.recommendation}`,
+        title: wasRoastMode ? "Roast Complete!" : t("analysis.complete"),
+        description: wasRoastMode 
+          ? `Get ready for some honest feedback...` 
+          : `${t("analysis.recommendation")}: ${data.recommendation}`,
       });
     },
     onError: (error: Error) => {
@@ -56,7 +63,8 @@ export default function Home() {
 
   const handleAnalyze = (imageData: string) => {
     setCurrentScreenshot(imageData);
-    analyzeMutation.mutate(imageData);
+    setWasRoastMode(analysisMode === "roast");
+    analyzeMutation.mutate({ imageData, mode: analysisMode });
   };
 
   const handleSelectHistory = (analysis: HandAnalysis) => {
@@ -72,6 +80,7 @@ export default function Home() {
       reasoning: analysis.reasoning,
       confidence: analysis.confidence || 0,
     });
+    setWasRoastMode(analysis.mode === "roast");
     setCurrentScreenshot(null);
   };
 
@@ -134,7 +143,7 @@ export default function Home() {
                   />
                 </Card>
               )}
-              <AnalysisResult analysis={currentAnalysis} screenshot={currentScreenshot || undefined} />
+              <AnalysisResult analysis={currentAnalysis} screenshot={currentScreenshot || undefined} isRoast={wasRoastMode} />
             </>
           ) : (
             <>
@@ -144,21 +153,61 @@ export default function Home() {
                   {t("home.uploadDescription")}
                 </p>
               </div>
+
+              <Card className="p-4" data-testid="card-mode-selection">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="text-center sm:text-left">
+                    <p className="text-sm font-medium">Analysis Mode</p>
+                    <p className="text-xs text-muted-foreground">Choose how you want your feedback</p>
+                  </div>
+                  <Tabs value={analysisMode} onValueChange={(v) => setAnalysisMode(v as AnalysisMode)}>
+                    <TabsList>
+                      <TabsTrigger value="normal" className="gap-2" data-testid="tab-mode-normal">
+                        <Brain className="w-4 h-4" />
+                        <span className="hidden sm:inline">Coach Mode</span>
+                        <span className="sm:hidden">Coach</span>
+                      </TabsTrigger>
+                      <TabsTrigger value="roast" className="gap-2" data-testid="tab-mode-roast">
+                        <Flame className="w-4 h-4" />
+                        <span className="hidden sm:inline">Roast My Hand</span>
+                        <span className="sm:hidden">Roast</span>
+                      </TabsTrigger>
+                    </TabsList>
+                  </Tabs>
+                </div>
+                {analysisMode === "roast" && (
+                  <p className="text-xs text-muted-foreground mt-3 text-center bg-orange-500/10 rounded-md p-2">
+                    <Flame className="w-3 h-3 inline mr-1" />
+                    Get ready for some brutally honest (but educational) feedback!
+                  </p>
+                )}
+              </Card>
+
               <ScreenshotUpload
                 onAnalyze={handleAnalyze}
                 isAnalyzing={analyzeMutation.isPending}
               />
               {analyzeMutation.isPending && (
-                <Card data-testid="card-loading">
+                <Card data-testid="card-loading" className={analysisMode === "roast" ? "border-orange-500/30" : ""}>
                   <CardContent className="py-8">
                     <div className="flex flex-col items-center gap-4">
                       <div className="relative">
-                        <div className="w-16 h-16 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
+                        {analysisMode === "roast" ? (
+                          <div className="w-16 h-16 rounded-full bg-orange-500/10 flex items-center justify-center animate-pulse">
+                            <Flame className="w-8 h-8 text-orange-500" />
+                          </div>
+                        ) : (
+                          <div className="w-16 h-16 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
+                        )}
                       </div>
                       <div className="text-center">
-                        <p className="font-medium" data-testid="text-loading-title">{t("home.analyzing")}</p>
+                        <p className="font-medium" data-testid="text-loading-title">
+                          {analysisMode === "roast" ? "Preparing your roast..." : t("home.analyzing")}
+                        </p>
                         <p className="text-sm text-muted-foreground" data-testid="text-loading-description">
-                          {t("home.analyzingDescription")}
+                          {analysisMode === "roast" 
+                            ? "Finding the spiciest feedback for you..." 
+                            : t("home.analyzingDescription")}
                         </p>
                       </div>
                     </div>

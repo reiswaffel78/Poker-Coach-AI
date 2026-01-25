@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Target, 
   TrendingUp, 
@@ -10,13 +13,22 @@ import {
   Users, 
   Coins, 
   MapPin,
-  Brain
+  Brain,
+  Flame,
+  Share2,
+  Twitter,
+  Copy,
+  Check,
+  Grid3X3
 } from "lucide-react";
 import type { PokerAnalysis } from "@shared/schema";
+import { RangeMatrix } from "@/components/RangeMatrix";
+import { rangePresets } from "@/data/range-presets";
 
 interface AnalysisResultProps {
   analysis: PokerAnalysis;
   screenshot?: string;
+  isRoast?: boolean;
 }
 
 const recommendationStyles: Record<string, { bg: string; text: string; icon: typeof Target }> = {
@@ -27,10 +39,33 @@ const recommendationStyles: Record<string, { bg: string; text: string; icon: typ
   "ALL-IN": { bg: "bg-primary", text: "text-primary-foreground", icon: TrendingUp },
 };
 
-export function AnalysisResult({ analysis }: AnalysisResultProps) {
+export function AnalysisResult({ analysis, isRoast = false }: AnalysisResultProps) {
   const { t } = useTranslation();
+  const { toast } = useToast();
+  const [copied, setCopied] = useState(false);
   const style = recommendationStyles[analysis.recommendation] || recommendationStyles["CHECK"];
   const RecommendationIcon = style.icon;
+
+  const shareText = isRoast 
+    ? `I got roasted by Poker Coach AI! My ${analysis.heroCards || "hand"} got a "${analysis.recommendation}" verdict. ${analysis.reasoning?.substring(0, 100)}... Get your hand roasted at`
+    : `Poker Coach AI says ${analysis.recommendation} with ${analysis.confidence}% confidence for my ${analysis.heroCards || "hand"}. Try it at`;
+  const shareUrl = "https://poker-coach-ai.replit.app/app";
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
+      setCopied(true);
+      toast({ title: "Copied to clipboard!" });
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast({ title: "Failed to copy", variant: "destructive" });
+    }
+  };
+
+  const handleTwitterShare = () => {
+    const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+    window.open(tweetUrl, "_blank", "noopener,noreferrer");
+  };
 
   const getConfidenceLabel = (confidence: number) => {
     if (confidence >= 80) return t("analysis.confidence") + ": " + t("analysis.gameState");
@@ -111,11 +146,15 @@ export function AnalysisResult({ analysis }: AnalysisResultProps) {
         )}
       </div>
 
-      <Card>
+      <Card className={isRoast ? "border-orange-500/30 bg-orange-500/5" : ""}>
         <CardHeader className="pb-2">
           <CardTitle className="flex items-center gap-2 text-base">
-            <Brain className="w-5 h-5 text-primary" />
-            {t("analysis.reasoning")}
+            {isRoast ? (
+              <Flame className="w-5 h-5 text-orange-500" />
+            ) : (
+              <Brain className="w-5 h-5 text-primary" />
+            )}
+            {isRoast ? "The Roast" : t("analysis.reasoning")}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -132,6 +171,80 @@ export function AnalysisResult({ analysis }: AnalysisResultProps) {
           {(analysis.confidence ?? 0) >= 80 ? "85%" : (analysis.confidence ?? 0) >= 60 ? "70%" : "50%"}
         </Badge>
       </div>
+
+      {!analysis.communityCards && analysis.position && (() => {
+        const positionMap: Record<string, string> = {
+          "UTG": "utg-open",
+          "MP": "mp-open",
+          "CO": "co-open",
+          "BTN": "btn-open",
+          "SB": "sb-open",
+          "BB": "bb-defend"
+        };
+        const presetId = positionMap[analysis.position];
+        const preset = rangePresets.find(p => p.id === presetId);
+        if (!preset) return null;
+        return (
+          <Card data-testid="card-range-reference">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base flex items-center gap-2">
+                <Grid3X3 className="w-5 h-5 text-primary" />
+                {analysis.position} Opening Range Reference
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground mb-4">
+                Compare your hand with typical {analysis.position} opening ranges.
+              </p>
+              <div className="flex justify-center">
+                <RangeMatrix ranges={preset.ranges} showLegend={true} />
+              </div>
+            </CardContent>
+          </Card>
+        );
+      })()}
+
+      <Card className="bg-muted/50">
+        <CardContent className="py-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Share2 className="w-4 h-4" />
+              <span className="text-sm font-medium">
+                {isRoast ? "Share your roast!" : "Share your analysis"}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleTwitterShare}
+                data-testid="button-share-twitter"
+              >
+                <Twitter className="w-4 h-4 mr-2" />
+                Tweet
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleCopyLink}
+                data-testid="button-copy-link"
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-4 h-4 mr-2" />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4 mr-2" />
+                    Copy
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

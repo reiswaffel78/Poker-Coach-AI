@@ -29,6 +29,7 @@ export const handAnalyses = pgTable("hand_analyses", {
   recommendation: text("recommendation").notNull(),
   reasoning: text("reasoning").notNull(),
   confidence: integer("confidence"),
+  mode: text("mode").default("normal"),
   createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
 });
 

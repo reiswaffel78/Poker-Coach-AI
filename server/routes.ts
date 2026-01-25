@@ -22,6 +22,19 @@ Consider: pot odds, hand equity, position, stack depths, and opponent tendencies
 Respond with JSON only (no markdown):
 {"heroCards":"As Kh","communityCards":"Qh Jd 5c or null if preflop","position":"BTN/SB/BB/UTG/MP/CO","potSize":"150BB","stackSize":"100BB","villainAction":"Raise 3BB or Check","recommendation":"FOLD|CHECK|CALL|RAISE|ALL-IN","reasoning":"Explain your recommendation considering pot odds, equity, and position. Be specific about the math when relevant.","confidence":85}`;
 
+const ROAST_ANALYSIS_PROMPT = `You are a legendary poker player who's seen it all and has a sharp wit. Analyze this screenshot and give your brutally honest, humorous assessment of this hand - but always stay educational and constructive.
+
+Your style: Think Phil Hellmuth meets a stand-up comedian. Be sarcastic and witty, but never mean-spirited. After the roast, always explain WHY this play is questionable and what the correct play is.
+
+Guidelines:
+- Start with a playful jab at the situation (e.g., "Ah yes, the classic 'I have top pair so I'm basically Phil Ivey' move...")
+- Point out the specific mistake in a funny way
+- Then give actual strategic advice
+- End with encouragement - we're here to learn!
+
+Respond with JSON only (no markdown):
+{"heroCards":"As Kh","communityCards":"Qh Jd 5c or null if preflop","position":"BTN/SB/BB/UTG/MP/CO","potSize":"150BB","stackSize":"100BB","villainAction":"Raise 3BB or Check","recommendation":"FOLD|CHECK|CALL|RAISE|ALL-IN","reasoning":"Your roast goes here - be funny but educational! Start with the joke, explain the mistake, give the correct play, and end positively.","confidence":85}`;
+
 export async function registerRoutes(
   httpServer: Server,
   app: Express
@@ -56,11 +69,14 @@ export async function registerRoutes(
   // Analyze screenshot with Gemini
   app.post("/api/analyze", async (req, res) => {
     try {
-      const { image } = req.body;
+      const { image, mode = "normal" } = req.body;
       
       if (!image) {
         return res.status(400).json({ error: "Image data is required" });
       }
+
+      // Select prompt based on mode
+      const prompt = mode === "roast" ? ROAST_ANALYSIS_PROMPT : POKER_ANALYSIS_PROMPT;
 
       // Extract base64 data and mime type from data URL
       let imageData = image;
@@ -83,7 +99,7 @@ export async function registerRoutes(
           {
             role: "user",
             parts: [
-              { text: POKER_ANALYSIS_PROMPT },
+              { text: prompt },
               {
                 inlineData: {
                   mimeType: mimeType,
@@ -153,6 +169,7 @@ export async function registerRoutes(
         recommendation: analysis.recommendation,
         reasoning: analysis.reasoning,
         confidence: analysis.confidence ?? null,
+        mode: mode,
       });
 
       res.json(analysis);

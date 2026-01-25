@@ -50,7 +50,9 @@ Preferred communication style: Simple, everyday language.
 
 ### Routes
 - `/` - Marketing landing page with Hero, Features, How-it-Works, Extension section, FAQ
-- `/app` - Main poker analysis tool (screenshot upload & AI recommendations)
+- `/app` - Main poker analysis tool (screenshot upload & AI recommendations, Coach/Roast modes)
+- `/quiz` - Interactive poker quiz with Fold/Call/Raise questions, streak tracking, LocalStorage persistence
+- `/ranges` - Hand range visualization with 13x13 matrix, position presets (UTG, MP, CO, BTN, SB, BB)
 - `/hands` - Hand of the Day index (daily poker hand analysis)
 - `/hands/:slug` - Individual hand analysis with actions table, AI recommendation, alternatives, common mistakes
 - `/wiki` - Poker Glossary A-Z index
@@ -67,8 +69,19 @@ Preferred communication style: Simple, everyday language.
   - `hands-of-the-day.ts` - Daily hand analysis content
   - `wiki-terms.ts` - Poker glossary terms
   - `famous-hands.ts` - Famous poker hand analyses
+  - `quiz-scenarios.ts` - Interactive quiz hand scenarios
+  - `range-presets.ts` - Position-based hand range presets for visualization
 - **Content Types**: Zod schemas in `shared/content-types.ts`
 - **SEO**: react-helmet-async for dynamic meta tags, structured data (Article, DefinedTerm schemas)
+
+### Analysis Modes
+- **Coach Mode**: Standard AI analysis with strategic recommendations
+- **Roast Mode**: Humorous but educational feedback (Phil Hellmuth style roasting)
+- Both modes include social sharing (Twitter, Copy to clipboard)
+
+### Interactive Features
+- **Quiz/Trainer**: Pre-configured poker scenarios, Fold/Call/Raise/All-In buttons, streak tracking with LocalStorage
+- **Range Matrix**: 13x13 heatmap visualization of hand ranges by position
 
 ### Project Structure
 ```
@@ -77,7 +90,9 @@ client/           # React frontend
     components/   # UI components including shadcn/ui
     pages/        # Route components
       Landing.tsx       # Marketing landing page
-      App.tsx           # Poker analysis tool
+      App.tsx           # Poker analysis tool (Coach/Roast modes)
+      Quiz.tsx          # Interactive poker quiz trainer
+      Ranges.tsx        # Hand range visualization
       HandsOfTheDay.tsx # Hand of the Day index
       HandDetail.tsx    # Individual hand analysis
       Wiki.tsx          # Poker glossary index

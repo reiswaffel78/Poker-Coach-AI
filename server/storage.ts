@@ -50,8 +50,18 @@ export class MemStorage implements IStorage {
   async createAnalysis(insertAnalysis: InsertHandAnalysis): Promise<HandAnalysis> {
     const id = this.analysisIdCounter++;
     const analysis: HandAnalysis = {
-      ...insertAnalysis,
       id,
+      screenshotUrl: insertAnalysis.screenshotUrl ?? null,
+      heroCards: insertAnalysis.heroCards ?? null,
+      communityCards: insertAnalysis.communityCards ?? null,
+      position: insertAnalysis.position ?? null,
+      potSize: insertAnalysis.potSize ?? null,
+      stackSize: insertAnalysis.stackSize ?? null,
+      villainAction: insertAnalysis.villainAction ?? null,
+      recommendation: insertAnalysis.recommendation,
+      reasoning: insertAnalysis.reasoning,
+      confidence: insertAnalysis.confidence ?? null,
+      mode: insertAnalysis.mode ?? "normal",
       createdAt: new Date(),
     };
     this.analyses.set(id, analysis);
