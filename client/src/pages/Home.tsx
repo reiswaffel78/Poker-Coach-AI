@@ -7,7 +7,6 @@ import { ScreenshotUpload } from "@/components/ScreenshotUpload";
 import { AnalysisResult } from "@/components/AnalysisResult";
 import { HistoryList } from "@/components/HistoryList";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -96,12 +95,11 @@ export default function Home() {
               <Zap className="w-3 h-3 mr-1" />
               {t("app.aiPowered")}
             </Badge>
-            <Link href="/anleitung">
+            <Link href="/guide">
               <Button variant="ghost" size="icon" data-testid="button-guide">
                 <HelpCircle className="w-5 h-5" />
               </Button>
             </Link>
-            <LanguageSwitcher />
             <ThemeToggle />
           </div>
         </div>

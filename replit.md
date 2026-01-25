@@ -2,7 +2,7 @@
 
 ## Overview
 
-Poker Coach is an AI-powered poker training assistant that analyzes poker screenshots and provides strategic hand recommendations. Users upload screenshots of their poker games, and the system uses Google Gemini's vision capabilities (via Replit AI Integrations) to extract game state information (hole cards, community cards, position, pot size, stack sizes, villain actions) and delivers actionable recommendations (FOLD, CHECK, CALL, RAISE, ALL-IN) with detailed reasoning in German.
+Poker Coach is an AI-powered poker training assistant that analyzes poker screenshots and provides strategic hand recommendations. Users upload screenshots of their poker games, and the system uses Google Gemini's vision capabilities (via Replit AI Integrations) to extract game state information (hole cards, community cards, position, pot size, stack sizes, villain actions) and delivers actionable recommendations (FOLD, CHECK, CALL, RAISE, ALL-IN) with detailed reasoning in English.
 
 ## User Preferences
 
@@ -17,7 +17,7 @@ Preferred communication style: Simple, everyday language.
 - **UI Components**: shadcn/ui component library with Radix UI primitives
 - **Styling**: Tailwind CSS with CSS custom properties for theming (light/dark mode support)
 - **Design Theme**: Poker-themed green felt color scheme
-- **Internationalization**: react-i18next with browser language detection, supports German (de) and English (en)
+- **Internationalization**: react-i18next (English only, no German legal requirements)
 
 ### Backend Architecture
 - **Framework**: Express.js 5 running on Node.js with TypeScript

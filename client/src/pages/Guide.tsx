@@ -1,7 +1,6 @@
 import { Link } from "wouter";
 import { useTranslation } from "react-i18next";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -61,7 +60,6 @@ export default function Guide() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <LanguageSwitcher />
             <ThemeToggle />
           </div>
         </div>

@@ -6,32 +6,12 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://poker-coach-ai.replit.app/anleitung</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://poker-coach-ai.replit.app/guide</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://poker-coach-ai.replit.app/impressum</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://poker-coach-ai.replit.app/datenschutz</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
     <loc>https://poker-coach-ai.replit.app/privacy</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://poker-coach-ai.replit.app/nutzungsbedingungen</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

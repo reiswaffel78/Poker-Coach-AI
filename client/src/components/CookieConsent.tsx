@@ -43,7 +43,7 @@ export function CookieConsent() {
                 </p>
                 <p className="text-sm text-muted-foreground" data-testid="text-cookie-description">
                   {t("cookie.description")}{" "}
-                  <Link href="/datenschutz">
+                  <Link href="/privacy">
                     <span className="underline hover:text-foreground cursor-pointer">
                       {t("cookie.learnMore")}
                     </span>

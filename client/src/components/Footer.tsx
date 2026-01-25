@@ -16,17 +16,12 @@ export function Footer() {
           </div>
           
           <nav className="flex flex-wrap items-center justify-center gap-4 text-sm" data-testid="footer-nav">
-            <Link href="/impressum">
-              <span className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer" data-testid="link-impressum">
-                {t("legal.impressum")}
-              </span>
-            </Link>
-            <Link href="/datenschutz">
+            <Link href="/privacy">
               <span className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer" data-testid="link-privacy">
                 {t("legal.privacy")}
               </span>
             </Link>
-            <Link href="/nutzungsbedingungen">
+            <Link href="/terms">
               <span className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer" data-testid="link-terms">
                 {t("legal.terms")}
               </span>
