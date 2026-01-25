@@ -14,7 +14,9 @@ import {
   CheckCircle2,
   AlertCircle,
   FolderOpen,
-  ToggleLeft
+  ToggleLeft,
+  FolderArchive,
+  MousePointer
 } from "lucide-react";
 
 export default function ExtensionGuide() {
@@ -22,32 +24,51 @@ export default function ExtensionGuide() {
     {
       number: 1,
       title: "Download the Extension",
-      description: "The extension files are located in the 'extension' folder of the Poker Coach project. You'll need access to these files to install the extension.",
-      icon: Download
+      description: "Click the \"Download Extension (ZIP)\" button above to download the extension files as a ZIP archive to your computer.",
+      icon: Download,
+      details: null
     },
     {
       number: 2,
-      title: "Open Chrome Extensions",
-      description: "Open Chrome and navigate to chrome://extensions in the address bar. You can also access this via Menu > More Tools > Extensions.",
-      icon: Chrome
+      title: "Extract the ZIP File",
+      description: "Find the downloaded file (poker-coach-extension.zip) in your Downloads folder. Right-click on it and select \"Extract All\" (Windows) or double-click to unzip (Mac). Remember where you extract it - you'll need this folder in Step 5.",
+      icon: FolderArchive,
+      details: "The extracted folder should contain files like manifest.json, background.js, popup.html, etc."
     },
     {
       number: 3,
-      title: "Enable Developer Mode",
-      description: "In the top-right corner of the Extensions page, toggle on 'Developer mode'. This allows you to load unpacked extensions.",
-      icon: ToggleLeft
+      title: "Open Chrome Extensions Page",
+      description: "Open Google Chrome and type chrome://extensions in the address bar, then press Enter. Alternatively, click the three dots menu in Chrome, go to \"More Tools\", then click \"Extensions\".",
+      icon: Chrome,
+      details: null
     },
     {
       number: 4,
-      title: "Load Unpacked Extension",
-      description: "Click 'Load unpacked' and select the 'extension' folder from the Poker Coach project directory.",
-      icon: FolderOpen
+      title: "Enable Developer Mode",
+      description: "On the Extensions page, look for the \"Developer mode\" toggle in the top-right corner. Click it to turn it ON. This is required to install extensions that aren't from the Chrome Web Store.",
+      icon: ToggleLeft,
+      details: "When enabled, you'll see additional buttons appear: \"Load unpacked\", \"Pack extension\", and \"Update\"."
     },
     {
       number: 5,
-      title: "Configure API URL",
-      description: "Click the Poker Coach extension icon in your toolbar and enter the API URL (e.g., https://poker-coach-ai.replit.app) in the settings.",
-      icon: Settings
+      title: "Load the Extension",
+      description: "Click the \"Load unpacked\" button that appeared after enabling Developer Mode. A file browser will open - navigate to the folder where you extracted the ZIP file (the folder containing manifest.json) and select it.",
+      icon: FolderOpen,
+      details: "Select the folder named \"poker-coach-extension\" that was created when you extracted the ZIP."
+    },
+    {
+      number: 6,
+      title: "Pin the Extension",
+      description: "After loading, the Poker Coach extension will appear in your extensions list. Click the puzzle piece icon in Chrome's toolbar, then click the pin icon next to \"Poker Coach\" to keep it visible in your toolbar.",
+      icon: MousePointer,
+      details: null
+    },
+    {
+      number: 7,
+      title: "Configure the API URL",
+      description: "Click the Poker Coach extension icon in your toolbar. In the popup, you'll see a settings field for the API URL. Enter: https://poker-coach-ai.replit.app and click Save.",
+      icon: Settings,
+      details: "This connects the extension to our analysis server. Without this, the extension won't be able to analyze your screenshots."
     }
   ];
 
@@ -111,6 +132,11 @@ export default function ExtensionGuide() {
                       <h2 className="text-xl font-semibold">{step.title}</h2>
                     </div>
                     <p className="text-muted-foreground">{step.description}</p>
+                    {step.details && (
+                      <div className="mt-3 p-3 bg-muted/50 rounded-md">
+                        <p className="text-sm text-muted-foreground italic">{step.details}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </CardContent>
