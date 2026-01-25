@@ -16,7 +16,11 @@ import {
   ChevronRight,
   CheckCircle2,
   HelpCircle,
-  ArrowRight
+  ArrowRight,
+  Chrome,
+  Keyboard,
+  MonitorPlay,
+  Download
 } from "lucide-react";
 
 export default function Landing() {
@@ -101,6 +105,7 @@ export default function Landing() {
           <nav className="hidden md:flex items-center gap-6">
             <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</a>
             <a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">How It Works</a>
+            <a href="#extension" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Extension</a>
             <a href="#faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">FAQ</a>
             <Link href="/guide">
               <span className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer">Guide</span>
@@ -208,6 +213,87 @@ export default function Landing() {
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
+            </div>
+          </div>
+        </section>
+
+        <section id="extension" className="py-20 bg-muted/30" data-testid="section-extension">
+          <div className="container max-w-6xl mx-auto px-4">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <Badge variant="secondary" className="mb-4">
+                  <Chrome className="w-3 h-3 mr-1" />
+                  Browser Extension
+                </Badge>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-extension-title">
+                  Analyze Hands Instantly with Our Chrome Extension
+                </h2>
+                <p className="text-lg text-muted-foreground mb-6">
+                  No need to switch tabs or upload files. Press a hotkey and get AI recommendations 
+                  displayed as an overlay directly in your browser window.
+                </p>
+                <div className="space-y-4 mb-8">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                      <Keyboard className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold">One-Key Capture</h3>
+                      <p className="text-sm text-muted-foreground">Press Ctrl+Shift+P to instantly capture and analyze your current hand.</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                      <MonitorPlay className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold">In-Browser Overlay</h3>
+                      <p className="text-sm text-muted-foreground">Recommendations appear as a sleek overlay without leaving your poker table.</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                      <Zap className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold">Lightning Fast</h3>
+                      <p className="text-sm text-muted-foreground">Get results in seconds - perfect for hand reviews and training sessions.</p>
+                    </div>
+                  </div>
+                </div>
+                <Link href="/extension-guide">
+                  <Button size="lg" variant="outline" data-testid="button-download-extension">
+                    <Download className="w-5 h-5 mr-2" />
+                    Installation Guide
+                  </Button>
+                </Link>
+              </div>
+              <div className="relative">
+                <Card className="bg-background border-2">
+                  <CardContent className="p-6">
+                    <div className="text-center mb-4">
+                      <div className="w-16 h-16 rounded-xl bg-primary flex items-center justify-center mx-auto mb-4">
+                        <Spade className="w-8 h-8 text-primary-foreground" />
+                      </div>
+                      <h3 className="font-bold text-xl">Poker Coach Extension</h3>
+                      <p className="text-sm text-muted-foreground">Chrome Browser Extension</p>
+                    </div>
+                    <div className="bg-muted rounded-lg p-4 mb-4">
+                      <div className="text-xs text-muted-foreground mb-2">Hotkey</div>
+                      <div className="flex items-center justify-center gap-1">
+                        <kbd className="px-2 py-1 bg-background rounded text-sm font-mono border">Ctrl</kbd>
+                        <span className="text-muted-foreground">+</span>
+                        <kbd className="px-2 py-1 bg-background rounded text-sm font-mono border">Shift</kbd>
+                        <span className="text-muted-foreground">+</span>
+                        <kbd className="px-2 py-1 bg-background rounded text-sm font-mono border">P</kbd>
+                      </div>
+                    </div>
+                    <div className="text-sm text-muted-foreground text-center">
+                      Works with all major online poker platforms
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </div>
         </section>

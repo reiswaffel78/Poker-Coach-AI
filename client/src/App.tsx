@@ -8,6 +8,7 @@ import { CookieConsent } from "@/components/CookieConsent";
 import Landing from "@/pages/Landing";
 import PokerApp from "@/pages/App";
 import Guide from "@/pages/Guide";
+import ExtensionGuide from "@/pages/ExtensionGuide";
 import Privacy from "@/pages/Datenschutz";
 import Terms from "@/pages/Nutzungsbedingungen";
 import NotFound from "@/pages/not-found";
@@ -19,6 +20,7 @@ function Router() {
       <Route path="/" component={Landing} />
       <Route path="/app" component={PokerApp} />
       <Route path="/guide" component={Guide} />
+      <Route path="/extension-guide" component={ExtensionGuide} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/terms" component={Terms} />
       <Route component={NotFound} />

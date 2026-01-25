@@ -48,12 +48,23 @@ Preferred communication style: Simple, everyday language.
 - `GET /api/analyses` - Retrieve analysis history
 - Conversation and chat endpoints for extended AI interactions
 
+### Routes
+- `/` - Marketing landing page with Hero, Features, How-it-Works, Extension section, FAQ
+- `/app` - Main poker analysis tool (screenshot upload & AI recommendations)
+- `/guide` - User guide for using the tool
+- `/extension-guide` - Chrome extension installation guide
+- `/privacy` - Privacy policy
+- `/terms` - Terms of service
+
 ### Project Structure
 ```
 client/           # React frontend
   src/
     components/   # UI components including shadcn/ui
     pages/        # Route components
+      Landing.tsx       # Marketing landing page
+      App.tsx           # Poker analysis tool
+      ExtensionGuide.tsx # Chrome extension installation guide
     hooks/        # Custom React hooks
     lib/          # Utilities and query client
 server/           # Express backend
@@ -70,6 +81,10 @@ extension/        # Chrome Browser Extension
   overlay.css     # Overlay styling
   popup.html/js   # Extension popup UI
   icons/          # Extension icons (16, 48, 128px)
+public/           # Static assets
+  og-image.png    # OpenGraph image for social sharing
+  sitemap.xml     # SEO sitemap
+  robots.txt      # Search engine directives
 ```
 
 ## External Dependencies

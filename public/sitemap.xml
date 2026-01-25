@@ -16,6 +16,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://poker-coach-ai.replit.app/extension-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://poker-coach-ai.replit.app/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
