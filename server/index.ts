@@ -23,6 +23,30 @@ app.use(
 
 app.use(express.urlencoded({ extended: false }));
 
+// Serve static SEO files with correct MIME types
+import path from "path";
+import fs from "fs";
+
+app.get("/sitemap.xml", (_req, res) => {
+  const sitemapPath = path.resolve(import.meta.dirname, "..", "public", "sitemap.xml");
+  if (fs.existsSync(sitemapPath)) {
+    res.setHeader("Content-Type", "application/xml");
+    res.sendFile(sitemapPath);
+  } else {
+    res.status(404).send("Sitemap not found");
+  }
+});
+
+app.get("/robots.txt", (_req, res) => {
+  const robotsPath = path.resolve(import.meta.dirname, "..", "public", "robots.txt");
+  if (fs.existsSync(robotsPath)) {
+    res.setHeader("Content-Type", "text/plain");
+    res.sendFile(robotsPath);
+  } else {
+    res.status(404).send("Robots.txt not found");
+  }
+});
+
 // CORS for Chrome Extension and all API requests
 app.use((req, res, next) => {
   const origin = req.headers.origin;
