@@ -127,9 +127,9 @@ export function AnalysisResult({ analysis }: AnalysisResultProps) {
 
       <div className="flex items-center gap-3">
         <span className="text-sm text-muted-foreground">{t("analysis.confidence")}:</span>
-        <Progress value={analysis.confidence} className="flex-1" />
-        <Badge variant={analysis.confidence >= 70 ? "default" : "secondary"}>
-          {analysis.confidence >= 80 ? "85%" : analysis.confidence >= 60 ? "70%" : "50%"}
+        <Progress value={analysis.confidence ?? 0} className="flex-1" />
+        <Badge variant={(analysis.confidence ?? 0) >= 70 ? "default" : "secondary"}>
+          {(analysis.confidence ?? 0) >= 80 ? "85%" : (analysis.confidence ?? 0) >= 60 ? "70%" : "50%"}
         </Badge>
       </div>
     </div>

@@ -80,7 +80,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 items-center justify-between gap-4 px-4">
+        <div className="container max-w-2xl mx-auto flex h-14 items-center justify-between gap-4 px-4">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-md bg-primary flex items-center justify-center" data-testid="icon-logo">
               <Spade className="w-5 h-5 text-primary-foreground" />
