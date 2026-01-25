@@ -15,10 +15,12 @@ const ai = new GoogleGenAI({
   },
 });
 
-const POKER_ANALYSIS_PROMPT = `Analyze this poker screenshot. Extract visible info and recommend action.
+const POKER_ANALYSIS_PROMPT = `You are an expert poker coach. Analyze this screenshot and recommend the optimal action.
+
+Consider: pot odds, hand equity, position, stack depths, and opponent tendencies.
 
 Respond with JSON only (no markdown):
-{"heroCards":"e.g. As Kh","communityCards":"e.g. Qh Jd 5c or null","position":"e.g. BTN/SB/BB/UTG","potSize":"e.g. 150BB","stackSize":"e.g. 100BB","villainAction":"e.g. Raise 3BB","recommendation":"FOLD|CHECK|CALL|RAISE|ALL-IN","reasoning":"Brief explanation in English based on pot odds, equity, position","confidence":85}`;
+{"heroCards":"As Kh","communityCards":"Qh Jd 5c or null if preflop","position":"BTN/SB/BB/UTG/MP/CO","potSize":"150BB","stackSize":"100BB","villainAction":"Raise 3BB or Check","recommendation":"FOLD|CHECK|CALL|RAISE|ALL-IN","reasoning":"Explain your recommendation considering pot odds, equity, and position. Be specific about the math when relevant.","confidence":85}`;
 
 export async function registerRoutes(
   httpServer: Server,
