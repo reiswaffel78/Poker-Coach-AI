@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { useTranslation } from "react-i18next";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Footer } from "@/components/Footer";
+import { useBreadcrumbSchema } from "@/hooks/useBreadcrumbSchema";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +22,8 @@ import {
 
 export default function Guide() {
   const { t } = useTranslation();
+
+  useBreadcrumbSchema([{ name: "Guide", path: "/guide" }]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

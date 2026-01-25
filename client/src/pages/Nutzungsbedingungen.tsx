@@ -3,12 +3,15 @@ import { Link } from "wouter";
 import { useTranslation } from "react-i18next";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Footer } from "@/components/Footer";
+import { useBreadcrumbSchema } from "@/hooks/useBreadcrumbSchema";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Spade, ArrowLeft, FileText, AlertTriangle, Scale, Ban, CheckCircle2 } from "lucide-react";
 
 export default function Nutzungsbedingungen() {
   const { t } = useTranslation();
+
+  useBreadcrumbSchema([{ name: "Terms of Service", path: "/terms" }]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

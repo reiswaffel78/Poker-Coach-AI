@@ -8,6 +8,7 @@ import { AnalysisResult } from "@/components/AnalysisResult";
 import { HistoryList } from "@/components/HistoryList";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Footer } from "@/components/Footer";
+import { useBreadcrumbSchema } from "@/hooks/useBreadcrumbSchema";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,9 @@ import type { HandAnalysis, PokerAnalysis } from "@shared/schema";
 export default function Home() {
   const { t } = useTranslation();
   const { toast } = useToast();
+  
+  useBreadcrumbSchema([{ name: "Analysis Tool", path: "/app" }]);
+  
   const [currentAnalysis, setCurrentAnalysis] = useState<PokerAnalysis | null>(null);
   const [currentScreenshot, setCurrentScreenshot] = useState<string | null>(null);
   const [selectedHistoryId, setSelectedHistoryId] = useState<number | undefined>(undefined);

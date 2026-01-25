@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link } from "wouter";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Footer } from "@/components/Footer";
+import { useBreadcrumbSchema } from "@/hooks/useBreadcrumbSchema";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +22,8 @@ import {
 } from "lucide-react";
 
 export default function ExtensionGuide() {
+  useBreadcrumbSchema([{ name: "Extension Installation Guide", path: "/extension-guide" }]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
