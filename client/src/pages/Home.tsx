@@ -8,6 +8,7 @@ import { AnalysisResult } from "@/components/AnalysisResult";
 import { HistoryList } from "@/components/HistoryList";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -78,7 +79,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container max-w-2xl mx-auto flex h-14 items-center justify-between gap-4 px-4">
           <div className="flex items-center gap-3">
@@ -106,7 +107,7 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="container px-4 py-6 max-w-2xl mx-auto" data-testid="container-main">
+      <main className="container px-4 py-6 max-w-2xl mx-auto flex-1" data-testid="container-main">
         <div className="space-y-6">
           {currentAnalysis ? (
             <>
@@ -192,6 +193,8 @@ export default function Home() {
           </Card>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 }

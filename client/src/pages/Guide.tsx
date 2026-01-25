@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { useTranslation } from "react-i18next";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -42,7 +43,7 @@ export default function Guide() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container max-w-4xl mx-auto flex h-14 items-center justify-between gap-4 px-4">
           <div className="flex items-center gap-3">
@@ -66,7 +67,7 @@ export default function Guide() {
         </div>
       </header>
 
-      <main className="container px-4 py-8 max-w-4xl mx-auto" data-testid="container-guide">
+      <main className="container px-4 py-8 max-w-4xl mx-auto flex-1" data-testid="container-guide">
         <div className="space-y-8">
           <section className="text-center mb-12" data-testid="section-hero">
             <div className="w-20 h-20 rounded-xl bg-primary flex items-center justify-center mx-auto mb-6">
@@ -258,6 +259,8 @@ export default function Guide() {
           </div>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 }
