@@ -135,13 +135,18 @@ export default function Landing() {
             </div>
           </div>
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Features</a>
-            <a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">How It Works</a>
-            <a href="#extension" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Extension</a>
-            <a href="#faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">FAQ</a>
-            <Link href="/guide">
-              <span className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer">Guide</span>
+            <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="link-features">Features</a>
+            <a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="link-how-it-works">How It Works</a>
+            <Link href="/hands">
+              <span className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer" data-testid="link-hands">Hands</span>
             </Link>
+            <Link href="/wiki">
+              <span className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer" data-testid="link-wiki">Wiki</span>
+            </Link>
+            <Link href="/famous-hands">
+              <span className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer" data-testid="link-famous-hands">Famous Hands</span>
+            </Link>
+            <a href="#faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="link-faq">FAQ</a>
           </nav>
           <div className="flex items-center gap-3">
             <ThemeToggle />

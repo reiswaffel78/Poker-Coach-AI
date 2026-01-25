@@ -51,10 +51,24 @@ Preferred communication style: Simple, everyday language.
 ### Routes
 - `/` - Marketing landing page with Hero, Features, How-it-Works, Extension section, FAQ
 - `/app` - Main poker analysis tool (screenshot upload & AI recommendations)
+- `/hands` - Hand of the Day index (daily poker hand analysis)
+- `/hands/:slug` - Individual hand analysis with actions table, AI recommendation, alternatives, common mistakes
+- `/wiki` - Poker Glossary A-Z index
+- `/wiki/:slug` - Individual term with definition, formula, example, related terms
+- `/famous-hands` - Human vs Machine famous poker hands index
+- `/famous-hands/:slug` - Individual famous hand analysis comparing human decision vs AI recommendation
 - `/guide` - User guide for using the tool
 - `/extension-guide` - Chrome extension installation guide
 - `/privacy` - Privacy policy
 - `/terms` - Terms of service
+
+### Content System
+- **Data Files**: Static TypeScript content in `client/src/data/`
+  - `hands-of-the-day.ts` - Daily hand analysis content
+  - `wiki-terms.ts` - Poker glossary terms
+  - `famous-hands.ts` - Famous poker hand analyses
+- **Content Types**: Zod schemas in `shared/content-types.ts`
+- **SEO**: react-helmet-async for dynamic meta tags, structured data (Article, DefinedTerm schemas)
 
 ### Project Structure
 ```
@@ -64,7 +78,17 @@ client/           # React frontend
     pages/        # Route components
       Landing.tsx       # Marketing landing page
       App.tsx           # Poker analysis tool
+      HandsOfTheDay.tsx # Hand of the Day index
+      HandDetail.tsx    # Individual hand analysis
+      Wiki.tsx          # Poker glossary index
+      WikiDetail.tsx    # Individual term page
+      FamousHands.tsx   # Famous hands index
+      FamousHandDetail.tsx # Individual famous hand
       ExtensionGuide.tsx # Chrome extension installation guide
+    data/         # Static content data
+      hands-of-the-day.ts
+      wiki-terms.ts
+      famous-hands.ts
     hooks/        # Custom React hooks
     lib/          # Utilities and query client
 server/           # Express backend
