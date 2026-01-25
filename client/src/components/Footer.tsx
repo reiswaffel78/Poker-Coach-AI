@@ -1,7 +1,8 @@
 import { Link } from "wouter";
 import { useTranslation } from "react-i18next";
-import { Spade, ExternalLink, Heart } from "lucide-react";
+import { Spade, ExternalLink, Heart, Coffee } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 export function Footer() {
   const { t } = useTranslation();
@@ -18,18 +19,31 @@ export function Footer() {
               <Badge variant="outline" className="ml-2 text-xs" data-testid="badge-18-plus">18+</Badge>
             </div>
             
-            <nav className="flex flex-wrap items-center justify-center gap-4 text-sm" data-testid="footer-nav">
-              <Link href="/privacy">
-                <span className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer" data-testid="link-privacy">
-                  {t("legal.privacy")}
-                </span>
-              </Link>
-              <Link href="/terms">
-                <span className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer" data-testid="link-terms">
-                  {t("legal.terms")}
-                </span>
-              </Link>
-            </nav>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <Button variant="outline" size="sm" className="gap-2" asChild data-testid="button-donate">
+                <a
+                  href="https://paypal.me/pokercoachai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Coffee className="w-4 h-4" />
+                  <span>Support Us</span>
+                </a>
+              </Button>
+              
+              <nav className="flex flex-wrap items-center justify-center gap-4 text-sm" data-testid="footer-nav">
+                <Link href="/privacy">
+                  <span className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer" data-testid="link-privacy">
+                    {t("legal.privacy")}
+                  </span>
+                </Link>
+                <Link href="/terms">
+                  <span className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer" data-testid="link-terms">
+                    {t("legal.terms")}
+                  </span>
+                </Link>
+              </nav>
+            </div>
           </div>
 
           <div className="border-t pt-4" data-testid="responsible-gambling">
