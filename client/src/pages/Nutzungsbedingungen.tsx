@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import { useBreadcrumbSchema } from "@/hooks/useBreadcrumbSchema";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Spade, ArrowLeft, FileText, AlertTriangle, Scale, Ban, CheckCircle2 } from "lucide-react";
+import { Spade, ArrowLeft, FileText, AlertTriangle, Scale, Ban, CheckCircle2, Heart, Clock, ExternalLink } from "lucide-react";
 
 export default function Nutzungsbedingungen() {
   const { t } = useTranslation();
@@ -109,6 +109,64 @@ export default function Nutzungsbedingungen() {
                     <li>{t("terms.prohibitedItem1")}</li>
                     <li>{t("terms.prohibitedItem2")}</li>
                     <li>{t("terms.prohibitedItem3")}</li>
+                  </ul>
+                </div>
+              </section>
+
+              <section data-testid="section-post-game-only">
+                <h3 className="font-semibold mb-3 flex items-center gap-2" data-testid="heading-post-game-only">
+                  <Clock className="w-4 h-4" />
+                  {t("terms.postGameOnly")}
+                </h3>
+                <div className="text-muted-foreground space-y-2 p-4 bg-destructive/10 rounded-lg border border-destructive/20">
+                  <p data-testid="text-post-game-only">{t("terms.postGameOnlyText")}</p>
+                </div>
+              </section>
+
+              <section data-testid="section-responsible-gambling">
+                <h3 className="font-semibold mb-3 flex items-center gap-2" data-testid="heading-responsible-gambling">
+                  <Heart className="w-4 h-4" />
+                  {t("terms.responsibleGambling")}
+                </h3>
+                <div className="text-muted-foreground space-y-3">
+                  <p data-testid="text-responsible-gambling">{t("terms.responsibleGamblingText")}</p>
+                  <ul className="space-y-2">
+                    <li>
+                      <a 
+                        href="https://www.gamblingtherapy.org" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-primary hover:underline"
+                        data-testid="link-gambling-therapy"
+                      >
+                        {t("terms.helpLink1")}
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </li>
+                    <li>
+                      <a 
+                        href="https://www.begambleaware.org" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-primary hover:underline"
+                        data-testid="link-begambleaware"
+                      >
+                        {t("terms.helpLink2")}
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </li>
+                    <li>
+                      <a 
+                        href="https://www.ncpgambling.org" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-primary hover:underline"
+                        data-testid="link-ncpg"
+                      >
+                        {t("terms.helpLink3")}
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </li>
                   </ul>
                 </div>
               </section>

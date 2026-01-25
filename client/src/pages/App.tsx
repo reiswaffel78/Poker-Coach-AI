@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Spade, History, Plus, Zap, HelpCircle, Flame, Brain } from "lucide-react";
+import { Spade, History, Plus, Zap, HelpCircle, Flame, Brain, AlertTriangle } from "lucide-react";
 import type { HandAnalysis, PokerAnalysis } from "@shared/schema";
 
 type AnalysisMode = "normal" | "roast";
@@ -123,6 +123,14 @@ export default function Home() {
       </header>
 
       <main className="container px-4 py-6 max-w-2xl mx-auto flex-1" data-testid="container-main">
+        <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-lg" data-testid="banner-training-only">
+          <div className="flex items-start gap-2">
+            <AlertTriangle className="w-4 h-4 text-destructive mt-0.5 shrink-0" />
+            <p className="text-xs text-muted-foreground" data-testid="text-training-disclaimer">
+              <strong className="text-foreground">{t("banner.trainingOnlyTitle")}</strong> {t("banner.trainingOnlyText")}
+            </p>
+          </div>
+        </div>
         <div className="space-y-6">
           {currentAnalysis ? (
             <>

@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import { useBreadcrumbSchema } from "@/hooks/useBreadcrumbSchema";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Spade, ArrowLeft, Shield, Database, Cookie, Eye, Trash2, Server } from "lucide-react";
+import { Spade, ArrowLeft, Shield, Database, Cookie, Eye, Trash2, Server, BarChart3 } from "lucide-react";
 
 export default function Datenschutz() {
   const { t } = useTranslation();
@@ -114,6 +114,16 @@ export default function Datenschutz() {
                     <li>{t("privacy.right4")}</li>
                   </ul>
                 </div>
+              </section>
+
+              <section data-testid="section-analytics">
+                <h3 className="font-semibold mb-3 flex items-center gap-2" data-testid="heading-analytics">
+                  <BarChart3 className="w-4 h-4" />
+                  {t("privacy.analytics")}
+                </h3>
+                <p className="text-muted-foreground" data-testid="text-analytics">
+                  {t("privacy.analyticsText")}
+                </p>
               </section>
 
               <section>

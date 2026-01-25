@@ -5,6 +5,10 @@
     "aiPowered": "AI-Powered",
     "backToHome": "Back to Home"
   },
+  "banner": {
+    "trainingOnlyTitle": "Training Tool Only:",
+    "trainingOnlyText": "This tool is designed for post-game analysis and learning purposes. Do not use during live play. Check your poker platform's terms of service. Gambling can be addictive - play responsibly."
+  },
   "home": {
     "analyzeHand": "Analyze Poker Hand",
     "uploadDescription": "Upload a screenshot of your poker game and receive instant action recommendations",
@@ -129,7 +133,9 @@
     "right3": "Right to deletion of your data",
     "right4": "Right to restriction of processing",
     "contact": "Contact for Privacy Inquiries",
-    "contactText": "For questions about privacy, please contact the address provided in the legal notice."
+    "contactText": "For questions about privacy, please contact the address provided in the legal notice.",
+    "analytics": "Analytics & Tracking",
+    "analyticsText": "We do not use any third-party analytics or tracking services. We do not collect behavioral data, create user profiles, or share any information with advertising networks. The only data processed is what you explicitly submit for analysis."
   },
   "terms": {
     "acceptance": "Acceptance of Terms",
@@ -153,7 +159,14 @@
     "changes": "Changes to Terms",
     "changesText": "We reserve the right to change these terms at any time. We will notify you of significant changes.",
     "law": "Applicable Law",
-    "lawText": "These terms are governed by applicable laws. Any disputes will be resolved in accordance with applicable jurisdiction."
+    "lawText": "These terms are governed by applicable laws. Any disputes will be resolved in accordance with applicable jurisdiction.",
+    "responsibleGambling": "Responsible Gambling",
+    "responsibleGamblingText": "Poker Coach is a training and educational tool. If you or someone you know has a gambling problem, please seek help:",
+    "helpLink1": "Gambling Therapy (International)",
+    "helpLink2": "BeGambleAware (UK)",
+    "helpLink3": "National Council on Problem Gambling (US)",
+    "postGameOnly": "Post-Game Use Only",
+    "postGameOnlyText": "This tool is designed exclusively for post-game analysis and learning purposes. Using analysis tools during live poker play may violate your poker platform's terms of service. Always check and comply with your platform's rules."
   },
   "cookie": {
     "title": "This website uses cookies",
