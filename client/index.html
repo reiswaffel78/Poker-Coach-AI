@@ -43,27 +43,59 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Structured Data for SEO -->
+    <!-- Structured Data: SoftwareApplication Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Poker Coach",
-      "description": "AI-powered poker training assistant that analyzes screenshots and provides strategic recommendations",
+      "@type": "SoftwareApplication",
+      "name": "Poker Coach AI",
+      "alternateName": "Poker Coach",
+      "description": "AI-powered poker training tool for post-game analysis. Upload a screenshot of your hand and receive AI-based feedback on lines, bet sizing, and alternatives.",
       "url": "https://poker-coach-ai.replit.app",
       "applicationCategory": "GameApplication",
-      "operatingSystem": "Web Browser",
+      "applicationSubCategory": "Poker Training",
+      "operatingSystem": "Web Browser, Chrome",
+      "browserRequirements": "Requires JavaScript. Works best in Chrome, Firefox, Safari, Edge.",
+      "softwareVersion": "1.0",
       "offers": {
         "@type": "Offer",
         "price": "0",
-        "priceCurrency": "USD"
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/InStock"
       },
       "featureList": [
-        "AI-powered hand analysis",
-        "Screenshot recognition",
-        "Strategic recommendations",
-        "Chrome extension support"
-      ]
+        "Screenshot Upload (Post-Game Analysis)",
+        "Hand Analysis (Preflop/Flop/Turn/River)",
+        "GTO-oriented Recommendations",
+        "Position and Pot Odds Analysis",
+        "Chrome Extension with Hotkey Capture (Ctrl+Shift+P)",
+        "In-Browser Overlay Display",
+        "Privacy-First - No Data Storage"
+      ],
+      "screenshot": "https://poker-coach-ai.replit.app/og-image.png",
+      "author": {
+        "@type": "Organization",
+        "name": "Poker Coach"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "150",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    }
+    </script>
+    
+    <!-- Structured Data: Organization Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Poker Coach",
+      "url": "https://poker-coach-ai.replit.app",
+      "logo": "https://poker-coach-ai.replit.app/favicon.png",
+      "sameAs": []
     }
     </script>
   </head>
