@@ -2,7 +2,8 @@
   "app": {
     "title": "Poker Coach",
     "subtitle": "AI Training Assistant",
-    "aiPowered": "AI-Powered"
+    "aiPowered": "AI-Powered",
+    "backToHome": "Back to Home"
   },
   "home": {
     "analyzeHand": "Analyze Poker Hand",

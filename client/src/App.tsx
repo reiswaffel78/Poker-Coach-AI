@@ -5,7 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { CookieConsent } from "@/components/CookieConsent";
-import Home from "@/pages/Home";
+import Landing from "@/pages/Landing";
+import PokerApp from "@/pages/App";
 import Guide from "@/pages/Guide";
 import Privacy from "@/pages/Datenschutz";
 import Terms from "@/pages/Nutzungsbedingungen";
@@ -15,7 +16,8 @@ import "./lib/i18n";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Home} />
+      <Route path="/" component={Landing} />
+      <Route path="/app" component={PokerApp} />
       <Route path="/guide" component={Guide} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/terms" component={Terms} />
