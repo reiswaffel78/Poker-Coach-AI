@@ -136,7 +136,7 @@ export function ScreenshotUpload({ onAnalyze, isAnalyzing }: ScreenshotUploadPro
           <div className="relative">
             <img
               src={preview}
-              alt="Poker Screenshot"
+              alt={t("common.pokerScreenshot")}
               className="w-full h-auto max-h-[400px] object-contain bg-muted"
               data-testid="img-screenshot-preview"
             />

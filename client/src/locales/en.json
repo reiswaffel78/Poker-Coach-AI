@@ -101,7 +101,9 @@
     "save": "Save",
     "delete": "Delete",
     "edit": "Edit",
-    "close": "Close"
+    "close": "Close",
+    "switchLanguage": "Switch language",
+    "pokerScreenshot": "Poker Screenshot"
   },
   "notFound": {
     "title": "404 Page Not Found",

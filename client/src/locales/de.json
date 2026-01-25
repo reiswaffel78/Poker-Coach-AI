@@ -101,7 +101,9 @@
     "save": "Speichern",
     "delete": "Löschen",
     "edit": "Bearbeiten",
-    "close": "Schließen"
+    "close": "Schließen",
+    "switchLanguage": "Sprache wechseln",
+    "pokerScreenshot": "Poker Screenshot"
   },
   "notFound": {
     "title": "404 Seite nicht gefunden",
