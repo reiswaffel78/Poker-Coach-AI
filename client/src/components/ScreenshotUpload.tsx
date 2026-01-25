@@ -93,7 +93,7 @@ export function ScreenshotUpload({ onAnalyze, isAnalyzing }: ScreenshotUploadPro
           onDragLeave={handleDragLeave}
           data-testid="card-drop-zone"
         >
-          <div className="flex flex-col items-center justify-center py-12 px-6">
+          <div className="flex flex-col items-center justify-center py-10 px-5">
             <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <Upload className="w-8 h-8 text-primary" />
             </div>
