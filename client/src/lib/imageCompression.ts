@@ -1,6 +1,6 @@
-const MAX_WIDTH = 1280;
-const MAX_HEIGHT = 720;
-const JPEG_QUALITY = 0.8;
+const MAX_WIDTH = 800;
+const MAX_HEIGHT = 600;
+const JPEG_QUALITY = 0.7;
 
 export async function compressImage(dataUrl: string): Promise<string> {
   return new Promise((resolve, reject) => {

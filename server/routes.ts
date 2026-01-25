@@ -15,31 +15,10 @@ const ai = new GoogleGenAI({
   },
 });
 
-const POKER_ANALYSIS_PROMPT = `Du bist ein erfahrener professioneller Pokerspieler und Coach. Analysiere den folgenden Poker-Screenshot und gib eine fundierte Handlungsempfehlung.
+const POKER_ANALYSIS_PROMPT = `Analyze this poker screenshot. Extract visible info and recommend action.
 
-Bitte analysiere:
-1. Die Hole Cards des Spielers (Hero)
-2. Die Community Cards (Flop, Turn, River falls sichtbar)
-3. Die Position des Spielers am Tisch
-4. Die Pot-Größe und Stack-Größen
-5. Die Aktionen der Gegner (Villain)
-
-Gib dann eine klare Empfehlung: FOLD, CHECK, CALL, RAISE oder ALL-IN.
-
-Erkläre deine Empfehlung auf Deutsch mit einer detaillierten Begründung, die auf Pot Odds, Equity, Position und Gegnertendenzen eingeht.
-
-Antworte NUR mit validem JSON im folgenden Format (keine Markdown-Codeblöcke):
-{
-  "heroCards": "z.B. 'As Kh' oder null wenn nicht sichtbar",
-  "communityCards": "z.B. 'Qh Jd 5c 2s' oder null wenn Preflop",
-  "position": "z.B. 'Button', 'Small Blind', 'UTG' oder null",
-  "potSize": "z.B. '150 BB' oder null",
-  "stackSize": "z.B. '100 BB' oder null",
-  "villainAction": "z.B. 'Raise 3BB', 'All-In' oder null",
-  "recommendation": "FOLD | CHECK | CALL | RAISE | ALL-IN",
-  "reasoning": "Ausführliche deutsche Begründung für die Empfehlung...",
-  "confidence": 85
-}`;
+Respond with JSON only (no markdown):
+{"heroCards":"e.g. As Kh","communityCards":"e.g. Qh Jd 5c or null","position":"e.g. BTN/SB/BB/UTG","potSize":"e.g. 150BB","stackSize":"e.g. 100BB","villainAction":"e.g. Raise 3BB","recommendation":"FOLD|CHECK|CALL|RAISE|ALL-IN","reasoning":"Brief explanation in English based on pot odds, equity, position","confidence":85}`;
 
 export async function registerRoutes(
   httpServer: Server,
