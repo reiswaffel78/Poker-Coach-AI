@@ -26,18 +26,21 @@ app.use(express.urlencoded({ extended: false }));
 // Serve static SEO files with correct MIME types
 import path from "path";
 import fs from "fs";
-import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+function findStaticFile(filename: string): string | null {
+  const possiblePaths = [
+    path.join(process.cwd(), "dist", "public", filename),
+    path.join(process.cwd(), "public", filename),
+  ];
+  for (const p of possiblePaths) {
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
 
 app.get("/sitemap.xml", (_req, res) => {
-  // Try production path first, then development path
-  const prodPath = path.resolve(__dirname, "public", "sitemap.xml");
-  const devPath = path.resolve(__dirname, "..", "public", "sitemap.xml");
-  const sitemapPath = fs.existsSync(prodPath) ? prodPath : devPath;
-  
-  if (fs.existsSync(sitemapPath)) {
+  const sitemapPath = findStaticFile("sitemap.xml");
+  if (sitemapPath) {
     res.setHeader("Content-Type", "application/xml");
     res.sendFile(sitemapPath);
   } else {
@@ -46,11 +49,8 @@ app.get("/sitemap.xml", (_req, res) => {
 });
 
 app.get("/robots.txt", (_req, res) => {
-  const prodPath = path.resolve(__dirname, "public", "robots.txt");
-  const devPath = path.resolve(__dirname, "..", "public", "robots.txt");
-  const robotsPath = fs.existsSync(prodPath) ? prodPath : devPath;
-  
-  if (fs.existsSync(robotsPath)) {
+  const robotsPath = findStaticFile("robots.txt");
+  if (robotsPath) {
     res.setHeader("Content-Type", "text/plain");
     res.sendFile(robotsPath);
   } else {
