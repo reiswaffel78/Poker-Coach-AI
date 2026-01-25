@@ -1,0 +1,111 @@
+{
+  "app": {
+    "title": "Poker Coach",
+    "subtitle": "KI-Trainingsassistent",
+    "aiPowered": "KI-gestützt"
+  },
+  "home": {
+    "analyzeHand": "Poker-Hand analysieren",
+    "uploadDescription": "Lade einen Screenshot deines Pokerspiels hoch und erhalte sofortige Handlungsempfehlungen",
+    "analysisResult": "Analyse-Ergebnis",
+    "newAnalysis": "Neue Analyse",
+    "analyzedScreenshot": "Analysierter Screenshot",
+    "history": "Verlauf",
+    "noHistory": "Noch keine Analysen vorhanden",
+    "analyzing": "Analysiere Screenshot...",
+    "analyzingDescription": "Die KI erkennt Karten, Position und Spielsituation"
+  },
+  "analysis": {
+    "complete": "Analyse abgeschlossen",
+    "recommendation": "Empfehlung",
+    "error": "Fehler bei der Analyse",
+    "confidence": "Konfidenz",
+    "reasoning": "Begründung",
+    "gameState": "Spielsituation",
+    "heroCards": "Hole Cards",
+    "communityCards": "Community Cards",
+    "position": "Position",
+    "potSize": "Pot-Größe",
+    "stackSize": "Stack-Größe",
+    "villainAction": "Gegner-Aktion",
+    "preflop": "Preflop",
+    "unknown": "Unbekannt"
+  },
+  "upload": {
+    "dragDrop": "Bild hierher ziehen",
+    "or": "oder",
+    "click": "Klicken zum Auswählen",
+    "paste": "Aus Zwischenablage einfügen",
+    "formats": "PNG, JPG oder WebP",
+    "analyze": "Analysieren",
+    "analyzing": "Analysiert..."
+  },
+  "guide": {
+    "title": "Anleitung",
+    "welcome": "Willkommen bei Poker Coach",
+    "intro": "Dein KI-gestützter Poker-Trainingsassistent analysiert deine Spielsituationen und gibt dir sofortige Handlungsempfehlungen auf Deutsch.",
+    "whatIs": "Was ist Poker Coach?",
+    "whatIsDescription": "Poker Coach nutzt künstliche Intelligenz, um Screenshots von deinen Online-Poker-Spielen zu analysieren. Die KI erkennt automatisch:",
+    "features": {
+      "holeCards": "Deine Hole Cards",
+      "communityCards": "Community Cards auf dem Tisch",
+      "position": "Deine Position am Tisch",
+      "potStack": "Pot-Größe und Stack-Sizes",
+      "villainActions": "Aktionen der Gegner",
+      "phase": "Spielphase (Preflop, Flop, etc.)"
+    },
+    "recommendations": "Basierend auf dieser Analyse erhältst du eine klare Empfehlung mit ausführlicher Begründung.",
+    "webapp": "Web-App nutzen",
+    "steps": {
+      "screenshot": {
+        "title": "Screenshot erstellen",
+        "description": "Mache einen Screenshot deines Pokerspiels mit der Tastenkombination deines Systems."
+      },
+      "upload": {
+        "title": "Bild hochladen",
+        "description": "Ziehe das Bild in den Upload-Bereich oder klicke zum Auswählen. Du kannst auch direkt aus der Zwischenablage einfügen."
+      },
+      "result": {
+        "title": "Empfehlung erhalten",
+        "description": "Die KI analysiert das Bild und zeigt dir innerhalb weniger Sekunden die optimale Aktion mit ausführlicher Begründung."
+      }
+    },
+    "extension": "Browser-Extension (empfohlen)",
+    "extensionDescription": "Für maximalen Komfort: Die Chrome-Extension ermöglicht dir, mit einem einzigen Tastendruck eine Analyse direkt im Browser zu starten!",
+    "hotkey": "Hotkey",
+    "hotkeyDescription": "Drücke diese Kombination während deines Pokerspiels. Die Empfehlung erscheint als Overlay direkt im Browser.",
+    "installation": "Installation:",
+    "installSteps": {
+      "download": "Klicke auf \"Extension herunterladen\" und entpacke die ZIP-Datei.",
+      "openChrome": "Öffne Chrome und gehe zu",
+      "devMode": "Aktiviere oben rechts den \"Entwicklermodus\".",
+      "loadUnpacked": "Klicke auf \"Entpackte Erweiterung laden\" und wähle den entpackten Ordner.",
+      "done": "Fertig! Nutze jetzt auf jeder Poker-Seite."
+    },
+    "downloadExtension": "Extension herunterladen (ZIP)",
+    "tips": "Tipps für beste Ergebnisse",
+    "tipsList": {
+      "visible": "Stelle sicher, dass deine Karten und der Tisch gut sichtbar sind.",
+      "readable": "Die Pot-Größe und Stack-Sizes sollten lesbar sein.",
+      "actions": "Aktionen der Gegner (Bet, Raise, etc.) sollten im Screenshot erkennbar sein.",
+      "timing": "Mache den Screenshot, bevor du deine Aktion ausführst."
+    },
+    "startAnalysis": "Jetzt Analyse starten"
+  },
+  "common": {
+    "back": "Zurück",
+    "loading": "Lädt...",
+    "error": "Fehler",
+    "success": "Erfolgreich",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "close": "Schließen"
+  },
+  "notFound": {
+    "title": "404 Seite nicht gefunden",
+    "description": "Die angeforderte Seite existiert nicht.",
+    "goHome": "Zur Startseite"
+  }
+}

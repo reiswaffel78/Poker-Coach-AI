@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -27,6 +28,8 @@ const recommendationColors: Record<string, string> = {
 };
 
 export function HistoryList({ analyses, onSelect, selectedId }: HistoryListProps) {
+  const { t, i18n } = useTranslation();
+  
   if (analyses.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center" data-testid="container-history-empty">
@@ -34,14 +37,13 @@ export function HistoryList({ analyses, onSelect, selectedId }: HistoryListProps
           <Clock className="w-6 h-6 text-muted-foreground" />
         </div>
         <p className="text-muted-foreground text-sm" data-testid="text-history-empty">
-          Noch keine Analysen vorhanden
-        </p>
-        <p className="text-muted-foreground text-xs mt-1" data-testid="text-history-hint">
-          Lade einen Screenshot hoch, um zu starten
+          {t("home.noHistory")}
         </p>
       </div>
     );
   }
+
+  const dateLocale = i18n.language === "de" ? "de-DE" : "en-US";
 
   return (
     <ScrollArea className="h-[calc(100vh-200px)]" data-testid="container-history-list">
@@ -92,7 +94,7 @@ export function HistoryList({ analyses, onSelect, selectedId }: HistoryListProps
                       {analysis.reasoning}
                     </p>
                     <p className="text-xs text-muted-foreground mt-2" data-testid={`text-date-${analysis.id}`}>
-                      {new Date(analysis.createdAt).toLocaleString("de-DE", {
+                      {new Date(analysis.createdAt).toLocaleString(dateLocale, {
                         day: "2-digit",
                         month: "2-digit",
                         hour: "2-digit",

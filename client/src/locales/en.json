@@ -1,0 +1,111 @@
+{
+  "app": {
+    "title": "Poker Coach",
+    "subtitle": "AI Training Assistant",
+    "aiPowered": "AI-Powered"
+  },
+  "home": {
+    "analyzeHand": "Analyze Poker Hand",
+    "uploadDescription": "Upload a screenshot of your poker game and receive instant action recommendations",
+    "analysisResult": "Analysis Result",
+    "newAnalysis": "New Analysis",
+    "analyzedScreenshot": "Analyzed Screenshot",
+    "history": "History",
+    "noHistory": "No analyses yet",
+    "analyzing": "Analyzing screenshot...",
+    "analyzingDescription": "The AI is recognizing cards, position and game situation"
+  },
+  "analysis": {
+    "complete": "Analysis complete",
+    "recommendation": "Recommendation",
+    "error": "Analysis error",
+    "confidence": "Confidence",
+    "reasoning": "Reasoning",
+    "gameState": "Game State",
+    "heroCards": "Hole Cards",
+    "communityCards": "Community Cards",
+    "position": "Position",
+    "potSize": "Pot Size",
+    "stackSize": "Stack Size",
+    "villainAction": "Opponent Action",
+    "preflop": "Preflop",
+    "unknown": "Unknown"
+  },
+  "upload": {
+    "dragDrop": "Drag image here",
+    "or": "or",
+    "click": "Click to select",
+    "paste": "Paste from clipboard",
+    "formats": "PNG, JPG or WebP",
+    "analyze": "Analyze",
+    "analyzing": "Analyzing..."
+  },
+  "guide": {
+    "title": "Guide",
+    "welcome": "Welcome to Poker Coach",
+    "intro": "Your AI-powered poker training assistant analyzes your game situations and provides instant action recommendations.",
+    "whatIs": "What is Poker Coach?",
+    "whatIsDescription": "Poker Coach uses artificial intelligence to analyze screenshots from your online poker games. The AI automatically recognizes:",
+    "features": {
+      "holeCards": "Your Hole Cards",
+      "communityCards": "Community Cards on the table",
+      "position": "Your position at the table",
+      "potStack": "Pot size and Stack sizes",
+      "villainActions": "Opponent actions",
+      "phase": "Game phase (Preflop, Flop, etc.)"
+    },
+    "recommendations": "Based on this analysis, you receive a clear recommendation with detailed reasoning.",
+    "webapp": "Using the Web App",
+    "steps": {
+      "screenshot": {
+        "title": "Take a Screenshot",
+        "description": "Take a screenshot of your poker game using your system's keyboard shortcut."
+      },
+      "upload": {
+        "title": "Upload Image",
+        "description": "Drag the image to the upload area or click to select. You can also paste directly from clipboard."
+      },
+      "result": {
+        "title": "Get Recommendation",
+        "description": "The AI analyzes the image and shows you the optimal action with detailed reasoning within seconds."
+      }
+    },
+    "extension": "Browser Extension (recommended)",
+    "extensionDescription": "For maximum convenience: The Chrome extension allows you to start an analysis with a single keystroke directly in your browser!",
+    "hotkey": "Hotkey",
+    "hotkeyDescription": "Press this combination during your poker game. The recommendation appears as an overlay directly in the browser.",
+    "installation": "Installation:",
+    "installSteps": {
+      "download": "Click \"Download Extension\" and extract the ZIP file.",
+      "openChrome": "Open Chrome and go to",
+      "devMode": "Enable \"Developer mode\" in the top right.",
+      "loadUnpacked": "Click \"Load unpacked\" and select the extracted folder.",
+      "done": "Done! Now use on any poker site."
+    },
+    "downloadExtension": "Download Extension (ZIP)",
+    "tips": "Tips for Best Results",
+    "tipsList": {
+      "visible": "Make sure your cards and the table are clearly visible.",
+      "readable": "The pot size and stack sizes should be readable.",
+      "actions": "Opponent actions (Bet, Raise, etc.) should be recognizable in the screenshot.",
+      "timing": "Take the screenshot before you make your action."
+    },
+    "startAnalysis": "Start Analysis Now"
+  },
+  "common": {
+    "back": "Back",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close"
+  },
+  "notFound": {
+    "title": "404 Page Not Found",
+    "description": "The requested page does not exist.",
+    "goHome": "Go to Home"
+  }
+}

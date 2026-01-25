@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -26,9 +27,16 @@ const recommendationStyles: Record<string, { bg: string; text: string; icon: typ
   "ALL-IN": { bg: "bg-primary", text: "text-primary-foreground", icon: TrendingUp },
 };
 
-export function AnalysisResult({ analysis, screenshot }: AnalysisResultProps) {
+export function AnalysisResult({ analysis }: AnalysisResultProps) {
+  const { t } = useTranslation();
   const style = recommendationStyles[analysis.recommendation] || recommendationStyles["CHECK"];
   const RecommendationIcon = style.icon;
+
+  const getConfidenceLabel = (confidence: number) => {
+    if (confidence >= 80) return t("analysis.confidence") + ": " + t("analysis.gameState");
+    if (confidence >= 60) return t("analysis.confidence");
+    return t("analysis.unknown");
+  };
 
   return (
     <div className="space-y-4">
@@ -40,14 +48,14 @@ export function AnalysisResult({ analysis, screenshot }: AnalysisResultProps) {
                 <RecommendationIcon className="w-7 h-7" />
               </div>
               <div>
-                <p className="text-sm opacity-90">Empfehlung</p>
+                <p className="text-sm opacity-90">{t("analysis.recommendation")}</p>
                 <h2 className="text-3xl font-bold" data-testid="text-recommendation">
                   {analysis.recommendation}
                 </h2>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-sm opacity-90">Sicherheit</p>
+              <p className="text-sm opacity-90">{t("analysis.confidence")}</p>
               <p className="text-2xl font-bold" data-testid="text-confidence">
                 {analysis.confidence}%
               </p>
@@ -62,7 +70,7 @@ export function AnalysisResult({ analysis, screenshot }: AnalysisResultProps) {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 text-muted-foreground mb-1">
                 <Hand className="w-4 h-4" />
-                <span className="text-xs">Deine Karten</span>
+                <span className="text-xs">{t("analysis.heroCards")}</span>
               </div>
               <p className="font-semibold" data-testid="text-hero-cards">{analysis.heroCards}</p>
             </CardContent>
@@ -73,7 +81,7 @@ export function AnalysisResult({ analysis, screenshot }: AnalysisResultProps) {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 text-muted-foreground mb-1">
                 <Users className="w-4 h-4" />
-                <span className="text-xs">Board</span>
+                <span className="text-xs">{t("analysis.communityCards")}</span>
               </div>
               <p className="font-semibold" data-testid="text-community-cards">{analysis.communityCards}</p>
             </CardContent>
@@ -84,7 +92,7 @@ export function AnalysisResult({ analysis, screenshot }: AnalysisResultProps) {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 text-muted-foreground mb-1">
                 <MapPin className="w-4 h-4" />
-                <span className="text-xs">Position</span>
+                <span className="text-xs">{t("analysis.position")}</span>
               </div>
               <p className="font-semibold" data-testid="text-position">{analysis.position}</p>
             </CardContent>
@@ -95,7 +103,7 @@ export function AnalysisResult({ analysis, screenshot }: AnalysisResultProps) {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 text-muted-foreground mb-1">
                 <Coins className="w-4 h-4" />
-                <span className="text-xs">Pot</span>
+                <span className="text-xs">{t("analysis.potSize")}</span>
               </div>
               <p className="font-semibold" data-testid="text-pot-size">{analysis.potSize}</p>
             </CardContent>
@@ -107,7 +115,7 @@ export function AnalysisResult({ analysis, screenshot }: AnalysisResultProps) {
         <CardHeader className="pb-2">
           <CardTitle className="flex items-center gap-2 text-base">
             <Brain className="w-5 h-5 text-primary" />
-            Begründung
+            {t("analysis.reasoning")}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -118,10 +126,10 @@ export function AnalysisResult({ analysis, screenshot }: AnalysisResultProps) {
       </Card>
 
       <div className="flex items-center gap-3">
-        <span className="text-sm text-muted-foreground">Konfidenz:</span>
+        <span className="text-sm text-muted-foreground">{t("analysis.confidence")}:</span>
         <Progress value={analysis.confidence} className="flex-1" />
         <Badge variant={analysis.confidence >= 70 ? "default" : "secondary"}>
-          {analysis.confidence >= 80 ? "Sehr sicher" : analysis.confidence >= 60 ? "Sicher" : "Unsicher"}
+          {analysis.confidence >= 80 ? "85%" : analysis.confidence >= 60 ? "70%" : "50%"}
         </Badge>
       </div>
     </div>

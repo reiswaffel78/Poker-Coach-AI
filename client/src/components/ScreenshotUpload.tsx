@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { Upload, Camera, Clipboard, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -9,6 +10,7 @@ interface ScreenshotUploadProps {
 }
 
 export function ScreenshotUpload({ onAnalyze, isAnalyzing }: ScreenshotUploadProps) {
+  const { t } = useTranslation();
   const [preview, setPreview] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -97,9 +99,9 @@ export function ScreenshotUpload({ onAnalyze, isAnalyzing }: ScreenshotUploadPro
             <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <Upload className="w-8 h-8 text-primary" />
             </div>
-            <h3 className="text-lg font-semibold mb-2" data-testid="text-upload-title">Screenshot hochladen</h3>
+            <h3 className="text-lg font-semibold mb-2" data-testid="text-upload-title">{t("upload.dragDrop")}</h3>
             <p className="text-muted-foreground text-center mb-6 max-w-sm" data-testid="text-upload-description">
-              Ziehe einen Screenshot hierher, füge ihn aus der Zwischenablage ein, oder wähle eine Datei aus
+              {t("upload.or")} {t("upload.click")} {t("upload.or")} {t("upload.paste")}
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Button
@@ -108,7 +110,7 @@ export function ScreenshotUpload({ onAnalyze, isAnalyzing }: ScreenshotUploadPro
                 data-testid="button-select-file"
               >
                 <Camera className="w-4 h-4 mr-2" />
-                Datei auswählen
+                {t("upload.click")}
               </Button>
               <Button
                 variant="outline"
@@ -116,7 +118,7 @@ export function ScreenshotUpload({ onAnalyze, isAnalyzing }: ScreenshotUploadPro
                 data-testid="button-paste-clipboard"
               >
                 <Clipboard className="w-4 h-4 mr-2" />
-                Aus Zwischenablage
+                {t("upload.paste")}
               </Button>
             </div>
             <input
@@ -159,12 +161,12 @@ export function ScreenshotUpload({ onAnalyze, isAnalyzing }: ScreenshotUploadPro
               {isAnalyzing ? (
                 <>
                   <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                  Analysiere...
+                  {t("upload.analyzing")}
                 </>
               ) : (
                 <>
                   <Camera className="w-5 h-5 mr-2" />
-                  Hand analysieren
+                  {t("upload.analyze")}
                 </>
               )}
             </Button>

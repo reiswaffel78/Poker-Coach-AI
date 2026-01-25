@@ -7,12 +7,14 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import Home from "@/pages/Home";
 import Guide from "@/pages/Guide";
 import NotFound from "@/pages/not-found";
+import "./lib/i18n";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/anleitung" component={Guide} />
+      <Route path="/guide" component={Guide} />
       <Route component={NotFound} />
     </Switch>
   );
