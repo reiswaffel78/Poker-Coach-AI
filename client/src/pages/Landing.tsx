@@ -261,12 +261,20 @@ export default function Landing() {
                     </div>
                   </div>
                 </div>
-                <Link href="/extension-guide">
-                  <Button size="lg" variant="outline" data-testid="button-download-extension">
-                    <Download className="w-5 h-5 mr-2" />
-                    Installation Guide
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Button size="lg" data-testid="button-download-zip" asChild>
+                    <a href="/api/extension/download" download="poker-coach-extension.zip">
+                      <Download className="w-5 h-5 mr-2" />
+                      Download Extension
+                    </a>
                   </Button>
-                </Link>
+                  <Link href="/extension-guide">
+                    <Button size="lg" variant="outline" data-testid="button-extension-guide">
+                      <HelpCircle className="w-5 h-5 mr-2" />
+                      Installation Guide
+                    </Button>
+                  </Link>
+                </div>
               </div>
               <div className="relative">
                 <Card className="bg-background border-2">

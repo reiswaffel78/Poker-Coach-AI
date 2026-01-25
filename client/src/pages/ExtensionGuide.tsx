@@ -86,9 +86,15 @@ export default function ExtensionGuide() {
           <h1 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-page-title">
             Chrome Extension Installation Guide
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-muted-foreground mb-6">
             Follow these steps to install the Poker Coach Chrome extension and start analyzing hands with a single hotkey.
           </p>
+          <Button size="lg" data-testid="button-download-zip" asChild>
+            <a href="/api/extension/download" download="poker-coach-extension.zip">
+              <Download className="w-5 h-5 mr-2" />
+              Download Extension (ZIP)
+            </a>
+          </Button>
         </div>
 
         <div className="space-y-6 mb-12">
