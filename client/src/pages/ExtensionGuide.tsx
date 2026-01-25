@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "wouter";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Footer } from "@/components/Footer";
@@ -20,6 +21,9 @@ import {
 } from "lucide-react";
 
 export default function ExtensionGuide() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const steps = [
     {
       number: 1,

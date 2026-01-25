@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "wouter";
 import { useTranslation } from "react-i18next";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -8,6 +9,10 @@ import { Spade, ArrowLeft, Shield, Database, Cookie, Eye, Trash2, Server } from 
 
 export default function Datenschutz() {
   const { t } = useTranslation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
