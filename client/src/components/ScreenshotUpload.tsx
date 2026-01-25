@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Upload, Camera, Clipboard, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { compressImage } from "@/lib/imageCompression";
 
 interface ScreenshotUploadProps {
   onAnalyze: (imageData: string) => void;
@@ -75,9 +76,15 @@ export function ScreenshotUpload({ onAnalyze, isAnalyzing }: ScreenshotUploadPro
     }
   };
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     if (preview) {
-      onAnalyze(preview);
+      try {
+        const compressedImage = await compressImage(preview);
+        onAnalyze(compressedImage);
+      } catch (error) {
+        console.error("Image compression failed:", error);
+        onAnalyze(preview);
+      }
     }
   };
 

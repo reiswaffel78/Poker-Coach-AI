@@ -1,3 +1,51 @@
+const MAX_WIDTH = 1280;
+const MAX_HEIGHT = 720;
+const JPEG_QUALITY = 0.8;
+
+async function compressImage(dataUrl) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    
+    img.onload = () => {
+      let width = img.width;
+      let height = img.height;
+      
+      const aspectRatio = width / height;
+      
+      if (width > MAX_WIDTH) {
+        width = MAX_WIDTH;
+        height = Math.round(width / aspectRatio);
+      }
+      
+      if (height > MAX_HEIGHT) {
+        height = MAX_HEIGHT;
+        width = Math.round(height * aspectRatio);
+      }
+      
+      const canvas = new OffscreenCanvas(width, height);
+      const ctx = canvas.getContext('2d');
+      
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      canvas.convertToBlob({ type: 'image/jpeg', quality: JPEG_QUALITY })
+        .then(blob => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const compressedUrl = reader.result;
+            console.log(`Image compressed: ${Math.round(dataUrl.length / 1024)}KB -> ${Math.round(compressedUrl.length / 1024)}KB`);
+            resolve(compressedUrl);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        })
+        .catch(reject);
+    };
+    
+    img.onerror = () => reject(new Error('Failed to load image'));
+    img.src = dataUrl;
+  });
+}
+
 async function getApiUrl() {
   const result = await chrome.storage.sync.get(["apiUrl"]);
   return result.apiUrl || "http://localhost:5000";
@@ -65,14 +113,24 @@ async function captureAndAnalyze() {
     await injectContentScriptIfNeeded(tabId);
     await sendToContentScript(tabId, { action: "showLoading" });
 
-    const screenshotDataUrl = await chrome.tabs.captureVisibleTab(null, {
+    const rawScreenshot = await chrome.tabs.captureVisibleTab(null, {
       format: "png",
       quality: 100
     });
+    
+    console.log("Raw screenshot size:", Math.round(rawScreenshot.length / 1024), "KB");
+    
+    let screenshotDataUrl;
+    try {
+      screenshotDataUrl = await compressImage(rawScreenshot);
+    } catch (e) {
+      console.warn("Compression failed, using original:", e);
+      screenshotDataUrl = rawScreenshot;
+    }
 
     const fullUrl = `${apiUrl}/api/analyze`;
     console.log("Sending request to:", fullUrl);
-    console.log("Screenshot size:", Math.round(screenshotDataUrl.length / 1024), "KB");
+    console.log("Compressed screenshot size:", Math.round(screenshotDataUrl.length / 1024), "KB");
     
     const response = await fetch(fullUrl, {
       method: "POST",
