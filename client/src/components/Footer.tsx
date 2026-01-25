@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { useTranslation } from "react-i18next";
-import { Spade, ExternalLink, Heart, Coffee } from "lucide-react";
+import { Spade, ExternalLink, Heart, Coffee, Mail } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -20,6 +20,12 @@ export function Footer() {
             </div>
             
             <div className="flex flex-wrap items-center justify-center gap-4">
+              <Button variant="outline" size="sm" className="gap-2" asChild data-testid="button-contact">
+                <a href="mailto:pokercoachai@proton.me">
+                  <Mail className="w-4 h-4" />
+                  <span>Contact</span>
+                </a>
+              </Button>
               <Button variant="outline" size="sm" className="gap-2" asChild data-testid="button-donate">
                 <a
                   href="https://paypal.me/pokercoachai"
