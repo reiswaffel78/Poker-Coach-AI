@@ -131,31 +131,31 @@ export async function registerRoutes(
       }
       cleanedContent = cleanedContent.trim();
 
-      // Sanitize the JSON content to handle control characters
-      // This fixes issues where the AI includes literal newlines in string values
-      cleanedContent = cleanedContent
-        .replace(/[\x00-\x1F\x7F]/g, (match) => {
-          // Keep escaped versions, remove raw control characters
-          if (match === '\n') return '\\n';
-          if (match === '\r') return '';
-          if (match === '\t') return ' ';
-          return '';
-        });
-
+      // Try to parse the JSON, with fallback cleanup if it fails
       let parsed;
       try {
         parsed = JSON.parse(cleanedContent);
       } catch (parseError) {
-        // If JSON parsing still fails, try to extract just the JSON object
-        const jsonMatch = cleanedContent.match(/\{[\s\S]*\}/);
+        // If parsing fails, try more aggressive cleanup
+        console.log("Initial JSON parse failed, attempting cleanup...");
+        
+        // Remove all control characters and normalize whitespace
+        let sanitized = cleanedContent
+          .replace(/[\x00-\x1F\x7F]/g, ' ')  // Replace all control chars with space
+          .replace(/\s+/g, ' ')               // Collapse multiple spaces
+          .trim();
+        
+        // Try to extract just the JSON object
+        const jsonMatch = sanitized.match(/\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}/);
         if (jsonMatch) {
-          // More aggressive cleanup for the matched JSON
-          const jsonStr = jsonMatch[0]
-            .replace(/[\r\n\t]/g, ' ')
-            .replace(/\s+/g, ' ');
-          parsed = JSON.parse(jsonStr);
-        } else {
-          throw parseError;
+          sanitized = jsonMatch[0];
+        }
+        
+        try {
+          parsed = JSON.parse(sanitized);
+        } catch (secondError) {
+          console.log("Sanitized content:", sanitized.substring(0, 500));
+          throw parseError; // Throw original error for better debugging
         }
       }
       const analysis = pokerAnalysisSchema.parse(parsed);
