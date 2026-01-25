@@ -4,11 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { 
-  Spade, 
-  ArrowLeft, 
   TrendingDown, 
   Hand, 
   Target, 
@@ -120,34 +118,7 @@ export default function Quiz() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container max-w-2xl mx-auto flex h-14 items-center justify-between gap-4 px-4">
-          <div className="flex items-center gap-3">
-            <Link href="/">
-              <Button variant="ghost" size="icon" data-testid="button-back">
-                <ArrowLeft className="w-5 h-5" />
-              </Button>
-            </Link>
-            <Link href="/">
-              <div className="flex items-center gap-2 cursor-pointer">
-                <div className="w-9 h-9 rounded-md bg-primary flex items-center justify-center" data-testid="icon-logo">
-                  <Spade className="w-5 h-5 text-primary-foreground" />
-                </div>
-                <div>
-                  <span className="text-lg font-semibold leading-none" data-testid="text-brand">Poker Quiz</span>
-                </div>
-              </div>
-            </Link>
-          </div>
-          <div className="flex items-center gap-2">
-            <Badge variant="secondary" className="gap-1" data-testid="badge-streak">
-              <Zap className="w-3 h-3" />
-              {stats.streak} streak
-            </Badge>
-            <ThemeToggle />
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="flex-1 container px-4 py-6 max-w-2xl mx-auto">
         <div className="space-y-6">

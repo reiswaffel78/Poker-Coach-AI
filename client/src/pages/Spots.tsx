@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { Helmet } from "react-helmet-async";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useBreadcrumbSchema } from "@/hooks/useBreadcrumbSchema";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,8 +9,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
-  Spade, 
-  ArrowLeft,
   Target,
   Layers,
   TrendingUp,
@@ -62,27 +60,7 @@ export default function Spots() {
         <meta property="og:image" content="https://poker-coach-ai.replit.app/og-image.png" />
       </Helmet>
 
-      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container max-w-4xl mx-auto flex h-14 items-center justify-between gap-4 px-4">
-          <div className="flex items-center gap-3">
-            <Link href="/">
-              <Button variant="ghost" size="icon" data-testid="button-back">
-                <ArrowLeft className="w-5 h-5" />
-              </Button>
-            </Link>
-            <div className="w-9 h-9 rounded-md bg-primary flex items-center justify-center" data-testid="icon-logo">
-              <Spade className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <div>
-              <h1 className="text-lg font-semibold leading-none" data-testid="text-app-title">Poker Spots</h1>
-              <p className="text-xs text-muted-foreground" data-testid="text-page-subtitle">Common Scenarios & Solutions</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="container px-4 py-8 max-w-4xl mx-auto flex-1" data-testid="container-spots">
         <div className="space-y-8">

@@ -2,10 +2,10 @@ import { useRoute, Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, BookOpen, Calculator, FileText, Link2, Spade } from "lucide-react";
+import { BookOpen, Calculator, FileText, Link2 } from "lucide-react";
 import { wikiTerms } from "@/data/wiki-terms";
 import { Helmet } from "react-helmet-async";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
 const categoryLabels: Record<string, string> = {
@@ -62,30 +62,7 @@ export default function WikiDetail() {
       </Helmet>
 
       <div className="min-h-screen bg-background flex flex-col">
-        <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="container max-w-4xl mx-auto flex h-14 items-center justify-between gap-4 px-4">
-            <div className="flex items-center gap-3">
-              <Link href="/wiki">
-                <Button variant="ghost" size="icon" data-testid="button-back">
-                  <ArrowLeft className="w-5 h-5" />
-                </Button>
-              </Link>
-              <Link href="/">
-                <div className="flex items-center gap-2 cursor-pointer">
-                  <div className="w-9 h-9 rounded-md bg-primary flex items-center justify-center" data-testid="icon-logo">
-                    <Spade className="w-5 h-5 text-primary-foreground" />
-                  </div>
-                  <div>
-                    <span className="text-lg font-semibold leading-none" data-testid="text-brand">Poker Coach</span>
-                  </div>
-                </div>
-              </Link>
-            </div>
-            <div className="flex items-center gap-2">
-              <ThemeToggle />
-            </div>
-          </div>
-        </header>
+        <Header />
 
         <main className="flex-1">
         <div className="container mx-auto px-4 py-8 max-w-3xl">
