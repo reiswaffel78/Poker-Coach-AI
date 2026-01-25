@@ -102,94 +102,90 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="container px-4 py-6" data-testid="container-main">
-        <div className="grid lg:grid-cols-[1fr_320px] gap-6">
-          <div className="space-y-6">
-            {currentAnalysis ? (
-              <>
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-semibold" data-testid="text-section-title">Analyse-Ergebnis</h2>
-                  <Button variant="outline" onClick={handleNewAnalysis} data-testid="button-new-analysis">
-                    <Plus className="w-4 h-4 mr-2" />
-                    Neue Analyse
-                  </Button>
-                </div>
-                {currentScreenshot && (
-                  <Card className="overflow-hidden" data-testid="card-screenshot-result">
-                    <img
-                      src={currentScreenshot}
-                      alt="Analysierter Screenshot"
-                      className="w-full h-auto max-h-[300px] object-contain bg-muted"
-                      data-testid="img-analyzed-screenshot"
-                    />
-                  </Card>
-                )}
-                <AnalysisResult analysis={currentAnalysis} screenshot={currentScreenshot || undefined} />
-              </>
-            ) : (
-              <>
-                <div className="text-center mb-6">
-                  <h2 className="text-2xl font-bold mb-2" data-testid="text-welcome-title">Poker-Hand analysieren</h2>
-                  <p className="text-muted-foreground" data-testid="text-welcome-description">
-                    Lade einen Screenshot deines Pokerspiels hoch und erhalte sofortige Handlungsempfehlungen
-                  </p>
-                </div>
-                <ScreenshotUpload
-                  onAnalyze={handleAnalyze}
-                  isAnalyzing={analyzeMutation.isPending}
-                />
-                {analyzeMutation.isPending && (
-                  <Card data-testid="card-loading">
-                    <CardContent className="py-8">
-                      <div className="flex flex-col items-center gap-4">
-                        <div className="relative">
-                          <div className="w-16 h-16 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
-                        </div>
-                        <div className="text-center">
-                          <p className="font-medium" data-testid="text-loading-title">Analysiere Screenshot...</p>
-                          <p className="text-sm text-muted-foreground" data-testid="text-loading-description">
-                            Die KI erkennt Karten, Position und Spielsituation
-                          </p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
-              </>
-            )}
-          </div>
-
-          <div className="lg:sticky lg:top-20 lg:h-fit">
-            <Card data-testid="card-history">
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center gap-2 text-base" data-testid="text-history-title">
-                  <History className="w-5 h-5" />
-                  Verlauf
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-0">
-                {historyLoading ? (
-                  <div className="space-y-3" data-testid="container-history-loading">
-                    {[1, 2, 3].map((i) => (
-                      <div key={i} className="flex gap-3">
-                        <Skeleton className="w-10 h-10 rounded-md" />
-                        <div className="flex-1 space-y-2">
-                          <Skeleton className="h-4 w-20" />
-                          <Skeleton className="h-3 w-full" />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <HistoryList
-                    analyses={history}
-                    onSelect={handleSelectHistory}
-                    selectedId={selectedHistoryId}
+      <main className="container px-4 py-6 max-w-2xl mx-auto" data-testid="container-main">
+        <div className="space-y-6">
+          {currentAnalysis ? (
+            <>
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold" data-testid="text-section-title">Analyse-Ergebnis</h2>
+                <Button variant="outline" onClick={handleNewAnalysis} data-testid="button-new-analysis">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Neue Analyse
+                </Button>
+              </div>
+              {currentScreenshot && (
+                <Card className="overflow-hidden" data-testid="card-screenshot-result">
+                  <img
+                    src={currentScreenshot}
+                    alt="Analysierter Screenshot"
+                    className="w-full h-auto max-h-[300px] object-contain bg-muted"
+                    data-testid="img-analyzed-screenshot"
                   />
-                )}
-              </CardContent>
-            </Card>
-          </div>
+                </Card>
+              )}
+              <AnalysisResult analysis={currentAnalysis} screenshot={currentScreenshot || undefined} />
+            </>
+          ) : (
+            <>
+              <div className="text-center">
+                <h2 className="text-2xl font-bold mb-2" data-testid="text-welcome-title">Poker-Hand analysieren</h2>
+                <p className="text-muted-foreground" data-testid="text-welcome-description">
+                  Lade einen Screenshot deines Pokerspiels hoch und erhalte sofortige Handlungsempfehlungen
+                </p>
+              </div>
+              <ScreenshotUpload
+                onAnalyze={handleAnalyze}
+                isAnalyzing={analyzeMutation.isPending}
+              />
+              {analyzeMutation.isPending && (
+                <Card data-testid="card-loading">
+                  <CardContent className="py-8">
+                    <div className="flex flex-col items-center gap-4">
+                      <div className="relative">
+                        <div className="w-16 h-16 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
+                      </div>
+                      <div className="text-center">
+                        <p className="font-medium" data-testid="text-loading-title">Analysiere Screenshot...</p>
+                        <p className="text-sm text-muted-foreground" data-testid="text-loading-description">
+                          Die KI erkennt Karten, Position und Spielsituation
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </>
+          )}
+
+          <Card data-testid="card-history">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-base" data-testid="text-history-title">
+                <History className="w-5 h-5" />
+                Verlauf
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-0">
+              {historyLoading ? (
+                <div className="space-y-3" data-testid="container-history-loading">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="flex gap-3">
+                      <Skeleton className="w-10 h-10 rounded-md" />
+                      <div className="flex-1 space-y-2">
+                        <Skeleton className="h-4 w-20" />
+                        <Skeleton className="h-3 w-full" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <HistoryList
+                  analyses={history}
+                  onSelect={handleSelectHistory}
+                  selectedId={selectedHistoryId}
+                />
+              )}
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>
