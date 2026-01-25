@@ -2,9 +2,11 @@ import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, ChevronRight, Users, Brain } from "lucide-react";
+import { Calendar, ChevronRight, Users, Brain, Spade, ArrowLeft } from "lucide-react";
 import { famousHands } from "@/data/famous-hands";
 import { Helmet } from "react-helmet-async";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { Footer } from "@/components/Footer";
 
 export default function FamousHands() {
   return (
@@ -15,7 +17,33 @@ export default function FamousHands() {
         <link rel="canonical" href="https://poker-coach-ai.replit.app/famous-hands" />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
+        <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="container max-w-4xl mx-auto flex h-14 items-center justify-between gap-4 px-4">
+            <div className="flex items-center gap-3">
+              <Link href="/">
+                <Button variant="ghost" size="icon" data-testid="button-back">
+                  <ArrowLeft className="w-5 h-5" />
+                </Button>
+              </Link>
+              <Link href="/">
+                <div className="flex items-center gap-2 cursor-pointer">
+                  <div className="w-9 h-9 rounded-md bg-primary flex items-center justify-center" data-testid="icon-logo">
+                    <Spade className="w-5 h-5 text-primary-foreground" />
+                  </div>
+                  <div>
+                    <span className="text-lg font-semibold leading-none" data-testid="text-brand">Poker Coach</span>
+                  </div>
+                </div>
+              </Link>
+            </div>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+            </div>
+          </div>
+        </header>
+
+        <main className="flex-1">
         <div className="container mx-auto px-4 py-8 max-w-4xl">
           <div className="mb-8">
             <h1 className="text-3xl font-bold mb-2">Human vs Machine</h1>
@@ -85,6 +113,8 @@ export default function FamousHands() {
             </Card>
           </div>
         </div>
+        </main>
+        <Footer />
       </div>
     </>
   );
