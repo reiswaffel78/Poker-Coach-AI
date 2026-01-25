@@ -22,6 +22,7 @@ import Quiz from "@/pages/Quiz";
 import Ranges from "@/pages/Ranges";
 import Spots from "@/pages/Spots";
 import SpotDetail from "@/pages/SpotDetail";
+import Support from "@/pages/Support";
 import NotFound from "@/pages/not-found";
 import "./lib/i18n";
 
@@ -44,6 +45,7 @@ function Router() {
       <Route path="/ranges" component={Ranges} />
       <Route path="/spots" component={Spots} />
       <Route path="/spots/:slug" component={SpotDetail} />
+      <Route path="/support" component={Support} />
       <Route component={NotFound} />
     </Switch>
   );

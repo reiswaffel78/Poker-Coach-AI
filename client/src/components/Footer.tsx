@@ -26,16 +26,12 @@ export function Footer() {
                   <span>Contact</span>
                 </a>
               </Button>
-              <Button variant="outline" size="sm" className="gap-2" asChild data-testid="button-donate">
-                <a
-                  href="https://paypal.me/pokercoachai"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+              <Link href="/support">
+                <Button variant="outline" size="sm" className="gap-2" data-testid="button-donate">
                   <Coffee className="w-4 h-4" />
                   <span>Support Us</span>
-                </a>
-              </Button>
+                </Button>
+              </Link>
               
               <nav className="flex flex-wrap items-center justify-center gap-4 text-sm" data-testid="footer-nav">
                 <Link href="/privacy">
