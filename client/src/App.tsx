@@ -20,6 +20,8 @@ import FamousHands from "@/pages/FamousHands";
 import FamousHandDetail from "@/pages/FamousHandDetail";
 import Quiz from "@/pages/Quiz";
 import Ranges from "@/pages/Ranges";
+import Spots from "@/pages/Spots";
+import SpotDetail from "@/pages/SpotDetail";
 import NotFound from "@/pages/not-found";
 import "./lib/i18n";
 
@@ -40,6 +42,8 @@ function Router() {
       <Route path="/famous-hands/:slug" component={FamousHandDetail} />
       <Route path="/quiz" component={Quiz} />
       <Route path="/ranges" component={Ranges} />
+      <Route path="/spots" component={Spots} />
+      <Route path="/spots/:slug" component={SpotDetail} />
       <Route component={NotFound} />
     </Switch>
   );

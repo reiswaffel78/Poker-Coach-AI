@@ -142,6 +142,9 @@ export default function Landing() {
             <Link href="/ranges">
               <span className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer" data-testid="link-ranges">Ranges</span>
             </Link>
+            <Link href="/spots">
+              <span className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer" data-testid="link-spots">Spots</span>
+            </Link>
             <Link href="/hands">
               <span className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer" data-testid="link-hands">Hands</span>
             </Link>

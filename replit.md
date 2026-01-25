@@ -59,6 +59,8 @@ Preferred communication style: Simple, everyday language.
 - `/wiki/:slug` - Individual term with definition, formula, example, related terms
 - `/famous-hands` - Human vs Machine famous poker hands index
 - `/famous-hands/:slug` - Individual famous hand analysis comparing human decision vs AI recommendation
+- `/spots` - Programmatic SEO spot pages index (longtail poker scenarios)
+- `/spots/:slug` - Individual spot page with scenario, action table, AI solution, exploits
 - `/guide` - User guide for using the tool
 - `/extension-guide` - Chrome extension installation guide
 - `/privacy` - Privacy policy
@@ -71,6 +73,7 @@ Preferred communication style: Simple, everyday language.
   - `famous-hands.ts` - Famous poker hand analyses
   - `quiz-scenarios.ts` - Interactive quiz hand scenarios
   - `range-presets.ts` - Position-based hand range presets for visualization
+  - `poker-spots.ts` - Programmatic SEO spots (16+ scenarios with actions, AI solutions, exploits)
 - **Content Types**: Zod schemas in `shared/content-types.ts`
 - **SEO**: react-helmet-async for dynamic meta tags, structured data (Article, DefinedTerm schemas)
 
