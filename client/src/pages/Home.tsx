@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { ScreenshotUpload } from "@/components/ScreenshotUpload";
@@ -10,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { Spade, History, Plus, Zap } from "lucide-react";
+import { Spade, History, Plus, Zap, HelpCircle } from "lucide-react";
 import type { HandAnalysis, PokerAnalysis } from "@shared/schema";
 
 export default function Home() {
@@ -91,6 +92,11 @@ export default function Home() {
               <Zap className="w-3 h-3 mr-1" />
               KI-gestützt
             </Badge>
+            <Link href="/anleitung">
+              <Button variant="ghost" size="icon" data-testid="button-guide">
+                <HelpCircle className="w-5 h-5" />
+              </Button>
+            </Link>
             <ThemeToggle />
           </div>
         </div>

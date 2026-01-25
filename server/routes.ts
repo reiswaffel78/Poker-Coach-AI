@@ -2,6 +2,9 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import OpenAI from "openai";
+import archiver from "archiver";
+import path from "path";
+import fs from "fs";
 import { pokerAnalysisSchema } from "@shared/schema";
 
 const openai = new OpenAI({
@@ -151,6 +154,34 @@ export async function registerRoutes(
       
       console.error("Debug info:", debugInfo);
       res.status(500).json({ error: errorMessage, debug: debugInfo });
+    }
+  });
+
+  // Download extension as ZIP
+  app.get("/api/extension/download", async (req, res) => {
+    try {
+      const extensionPath = path.join(process.cwd(), "extension");
+      
+      if (!fs.existsSync(extensionPath)) {
+        return res.status(404).json({ error: "Extension folder not found" });
+      }
+
+      res.setHeader("Content-Type", "application/zip");
+      res.setHeader("Content-Disposition", "attachment; filename=poker-coach-extension.zip");
+
+      const archive = archiver("zip", { zlib: { level: 9 } });
+      
+      archive.on("error", (err) => {
+        console.error("Archive error:", err);
+        res.status(500).json({ error: "Failed to create ZIP" });
+      });
+
+      archive.pipe(res);
+      archive.directory(extensionPath, "poker-coach-extension");
+      await archive.finalize();
+    } catch (error) {
+      console.error("Error creating extension ZIP:", error);
+      res.status(500).json({ error: "Failed to download extension" });
     }
   });
 
