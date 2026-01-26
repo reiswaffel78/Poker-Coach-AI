@@ -124,7 +124,7 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="sticky top-0 z-50 border-b bg-background">
         <div className="container max-w-6xl mx-auto flex h-16 items-center justify-between gap-4 px-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center" data-testid="icon-logo">
