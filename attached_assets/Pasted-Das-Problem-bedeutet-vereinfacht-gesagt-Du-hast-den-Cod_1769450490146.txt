@@ -1,0 +1,47 @@
+Das Problem bedeutet vereinfacht gesagt: **Du hast den Code, der Google deine FAQs erklärt, zweimal auf deiner Seite.**
+
+Google findet in deinem Code zwei Anweisungen für "Hier sind die FAQs", und das verwirrt die Suchmaschine. Das passiert oft, wenn man Code-Schnipsel kopiert und versehentlich doppelt einfügt oder wenn ein Plugin (falls verwendet) die Daten generiert und du sie zusätzlich manuell hinzugefügt hast.
+
+Hier ist die Schritt-für-Schritt-Anleitung, wie du das in Replit reparierst:
+
+### 1. Den Fehler im Code finden
+Da deine Seite auf Replit gehostet ist, hast du direkten Zugriff auf den HTML-Code.
+
+1.  Öffne dein Projekt auf **Replit**.
+2.  Suche die Hauptdatei (meistens `index.html`).
+3.  Drücke `Strg + F` (oder `Cmd + F` auf Mac), um die Suche zu öffnen.
+4.  Suche nach diesem Begriff: **`FAQPage`** oder nach **`application/ld+json`**.
+
+### 2. Das Problem beheben
+Du wirst wahrscheinlich zwei Blöcke finden, die ähnlich aussehen wie das hier:
+
+```html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [{
+    "@type": "Question",
+    "name": "Frage...",
+    "acceptedAnswer": { ... }
+  }]
+}
+</script>
+```
+
+**Was du tun musst:**
+*   Schau nach, ob dieser gesamte `<script>`-Block **zweimal** in deinem Code steht.
+*   Wenn ja: **Lösche einen der beiden kompletten Blöcke.**
+*   Achte darauf, dass du nur den *Code-Block* löschst, nicht den sichtbaren Text der Fragen auf deiner Webseite.
+
+### 3. Alternative Ursache (Seltener)
+Manchmal steht alles in *einem* Script, aber das Wort `FAQPage` taucht dort fälschlicherweise doppelt auf (z.B. zwei Listen). Wenn du nur ein Script findest, schau dir den Inhalt genau an. Es darf nur einmal `"@type": "FAQPage"` geben, das eine Liste (`mainEntity`) von Fragen enthält.
+
+### 4. Reparatur bestätigen (Wichtig!)
+Sobald du den doppelten Code gelöscht und die Änderung auf Replit veröffentlicht (Run/Deploy) hast:
+
+1.  Gehe zurück zur E-Mail oder in die **Google Search Console**.
+2.  Klicke auf den Button **"Problembehebung überprüfen"** (oder "Validate Fix").
+3.  Google wird die Seite neu scannen (das kann ein paar Tage dauern) und dir dann bestätigen, dass der Fehler weg ist.
+
+**Tipp:** Du kannst deine Seite sofort testen, indem du diesen Google-Test nutzt: [Test für Rich-Suchergebnisse](https://search.google.com/test/rich-results). Gib dort deine URL (`https://poker-coach-ai.replit.app/`) ein. Wenn unter "Erkannte Elemente" nur noch **1x** "FAQ" steht (und kein roter Fehler), hast du es erfolgreich repariert.
