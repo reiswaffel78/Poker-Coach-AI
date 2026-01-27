@@ -48,6 +48,28 @@ export function Footer() {
             </div>
           </div>
 
+          <div className="border-t pt-4" data-testid="built-with">
+            <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground mb-4">
+              <span>Built with</span>
+              <a 
+                href="https://replit.com/refer/meinnummer999" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 font-medium text-foreground hover:text-primary transition-colors"
+                data-testid="link-replit"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 32 32" fill="currentColor">
+                  <path d="M7 5.5C7 4.11929 8.11929 3 9.5 3H16.5V10.5H9.5C8.11929 10.5 7 9.38071 7 8V5.5Z"/>
+                  <path d="M16.5 10.5H23.5C24.8807 10.5 26 11.6193 26 13V15.5C26 16.8807 24.8807 18 23.5 18H16.5V10.5Z"/>
+                  <path d="M7 24V26.5C7 27.8807 8.11929 29 9.5 29H16.5V21.5H9.5C8.11929 21.5 7 22.6193 7 24Z"/>
+                  <path d="M16.5 14H9.5C8.11929 14 7 15.1193 7 16.5V17.5C7 18.8807 8.11929 20 9.5 20H16.5V14Z"/>
+                </svg>
+                Replit
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            </div>
+          </div>
+
           <div className="border-t pt-4" data-testid="responsible-gambling">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 text-xs text-muted-foreground flex-wrap">
               <div className="flex items-center gap-1">

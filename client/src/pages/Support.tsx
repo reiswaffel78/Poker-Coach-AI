@@ -83,6 +83,43 @@ export default function Support() {
               </CardContent>
             </Card>
 
+            <Card data-testid="card-replit">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-muted-foreground" viewBox="0 0 32 32" fill="currentColor">
+                    <path d="M7 5.5C7 4.11929 8.11929 3 9.5 3H16.5V10.5H9.5C8.11929 10.5 7 9.38071 7 8V5.5Z"/>
+                    <path d="M16.5 10.5H23.5C24.8807 10.5 26 11.6193 26 13V15.5C26 16.8807 24.8807 18 23.5 18H16.5V10.5Z"/>
+                    <path d="M7 24V26.5C7 27.8807 8.11929 29 9.5 29H16.5V21.5H9.5C8.11929 21.5 7 22.6193 7 24Z"/>
+                    <path d="M16.5 14H9.5C8.11929 14 7 15.1193 7 16.5V17.5C7 18.8807 8.11929 20 9.5 20H16.5V14Z"/>
+                  </svg>
+                  Powered by Replit
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 text-muted-foreground">
+                <p>
+                  This project is hosted on <strong className="text-foreground">Replit</strong> - an amazing platform that makes it easy to build, host, and deploy web applications.
+                </p>
+                <p>
+                  If you're interested in building your own projects, check out Replit. It's free to get started and perfect for hobby projects like this one.
+                </p>
+                <Button variant="outline" className="gap-2" asChild data-testid="button-replit">
+                  <a
+                    href="https://replit.com/refer/meinnummer999"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <svg className="w-4 h-4" viewBox="0 0 32 32" fill="currentColor">
+                      <path d="M7 5.5C7 4.11929 8.11929 3 9.5 3H16.5V10.5H9.5C8.11929 10.5 7 9.38071 7 8V5.5Z"/>
+                      <path d="M16.5 10.5H23.5C24.8807 10.5 26 11.6193 26 13V15.5C26 16.8807 24.8807 18 23.5 18H16.5V10.5Z"/>
+                      <path d="M7 24V26.5C7 27.8807 8.11929 29 9.5 29H16.5V21.5H9.5C8.11929 21.5 7 22.6193 7 24Z"/>
+                      <path d="M16.5 14H9.5C8.11929 14 7 15.1193 7 16.5V17.5C7 18.8807 8.11929 20 9.5 20H16.5V14Z"/>
+                    </svg>
+                    Try Replit Free
+                  </a>
+                </Button>
+              </CardContent>
+            </Card>
+
             <Card className="border-primary/20 bg-primary/5" data-testid="card-donate">
               <CardContent className="pt-6">
                 <div className="text-center space-y-4">
