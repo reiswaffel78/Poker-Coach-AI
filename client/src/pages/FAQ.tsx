@@ -5,11 +5,17 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { 
   Spade, 
   ArrowLeft,
-  CheckCircle2,
-  ArrowRight
+  ArrowRight,
+  HelpCircle
 } from "lucide-react";
 
 export default function FAQ() {
@@ -20,7 +26,7 @@ export default function FAQ() {
     },
     {
       question: "How accurate are the recommendations?",
-      answer: "Our AI provides solid fundamental strategy recommendations. While no tool can guarantee winning, our analysis helps you understand GTO concepts and improve your decision-making over time."
+      answer: "Our AI provides solid fundamental strategy recommendations based on GTO (Game Theory Optimal) principles. While no tool can guarantee winning, our analysis helps you understand optimal play and improve your decision-making over time."
     },
     {
       question: "Is my data secure?",
@@ -33,6 +39,46 @@ export default function FAQ() {
     {
       question: "Is there a browser extension?",
       answer: "Yes! We offer extensions for both Chrome and Firefox. They let you capture and analyze hands with a single hotkey (Ctrl+Shift+P). The recommendation appears as an overlay directly in your browser."
+    },
+    {
+      question: "What information does the AI extract from screenshots?",
+      answer: "The AI identifies your hole cards, community cards, pot size, stack sizes, your position at the table, betting action, and opponent actions to provide context-aware recommendations."
+    },
+    {
+      question: "Does Poker Coach work with all online poker sites?",
+      answer: "Poker Coach works with most major online poker platforms including PokerStars, GGPoker, 888poker, PartyPoker, and many others. The AI is trained to recognize various table themes and card designs."
+    },
+    {
+      question: "What is GTO and why does it matter?",
+      answer: "GTO (Game Theory Optimal) is a balanced poker strategy that is unexploitable in the long run. Our AI uses GTO principles to suggest plays that maximize expected value while minimizing exploitable weaknesses in your game."
+    },
+    {
+      question: "How is this different from other poker tools?",
+      answer: "Unlike traditional poker calculators that require manual input, Poker Coach uses AI vision to instantly read your game state from a screenshot. This makes analysis faster and more convenient, especially for hand reviews."
+    },
+    {
+      question: "Can Poker Coach help me with tournament play?",
+      answer: "Yes! The AI considers stack sizes and pot odds which are crucial for tournament decisions. However, it currently focuses on hand-by-hand analysis rather than ICM (Independent Chip Model) calculations."
+    },
+    {
+      question: "What is 'Roast Mode'?",
+      answer: "Roast Mode is our fun alternative analysis style where the AI delivers feedback with humor and personality, similar to famous poker commentators. It's educational but entertaining - perfect for sharing with friends!"
+    },
+    {
+      question: "How do I get better at reading opponents?",
+      answer: "While Poker Coach focuses on GTO strategy, learning to read opponents comes from experience. Use our tool to master fundamentals first, then you can start exploiting opponent tendencies once you understand optimal play."
+    },
+    {
+      question: "Is there a mobile app available?",
+      answer: "Currently, Poker Coach is available as a web application that works on all devices including mobile browsers. Simply visit our site on your phone or tablet to analyze hands on the go."
+    },
+    {
+      question: "What does the hand range matrix show?",
+      answer: "The hand range matrix (available in the Ranges section) displays the 169 possible starting hand combinations in Texas Hold'em. It helps you visualize which hands to play from each position."
+    },
+    {
+      question: "How can I improve my poker skills beyond using this tool?",
+      answer: "We recommend using Poker Coach alongside studying poker theory, watching training videos, reviewing your own hand histories, and practicing regularly. Our Quiz section offers interactive scenarios to test your knowledge."
     }
   ];
 
@@ -71,7 +117,7 @@ export default function FAQ() {
     <div className="min-h-screen bg-background flex flex-col">
       <Helmet>
         <title>FAQ - Poker Coach AI</title>
-        <meta name="description" content="Frequently asked questions about Poker Coach AI. Learn about supported poker variants, accuracy, data security, and browser extensions." />
+        <meta name="description" content="Frequently asked questions about Poker Coach AI. Learn about supported poker variants, accuracy, data security, GTO strategy, and browser extensions." />
         <link rel="canonical" href="https://poker-coach-ai.replit.app/faq" />
       </Helmet>
 
@@ -110,7 +156,10 @@ export default function FAQ() {
             </Button>
           </Link>
 
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
+            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+              <HelpCircle className="w-8 h-8 text-primary" />
+            </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-faq-title">
               Frequently Asked Questions
             </h1>
@@ -119,21 +168,22 @@ export default function FAQ() {
             </p>
           </div>
 
-          <div className="space-y-4">
-            {faqs.map((faq, index) => (
-              <Card key={index} data-testid={`card-faq-${index}`}>
-                <CardContent className="pt-6">
-                  <div className="flex gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                    <div>
-                      <h2 className="font-semibold mb-2">{faq.question}</h2>
+          <Card>
+            <CardContent className="pt-6">
+              <Accordion type="single" collapsible className="w-full">
+                {faqs.map((faq, index) => (
+                  <AccordionItem key={index} value={`item-${index}`} data-testid={`faq-item-${index}`}>
+                    <AccordionTrigger className="text-left" data-testid={`faq-trigger-${index}`}>
+                      {faq.question}
+                    </AccordionTrigger>
+                    <AccordionContent data-testid={`faq-content-${index}`}>
                       <p className="text-muted-foreground">{faq.answer}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </CardContent>
+          </Card>
 
           <div className="text-center mt-12">
             <p className="text-muted-foreground mb-4">Still have questions?</p>
