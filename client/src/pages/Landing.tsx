@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link } from "wouter";
 import { useTranslation } from "react-i18next";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -15,13 +14,11 @@ import {
   Clock,
   Shield,
   ChevronRight,
-  CheckCircle2,
   HelpCircle,
   ArrowRight,
   Chrome,
   Keyboard,
   MonitorPlay,
-  Download,
   Globe
 } from "lucide-react";
 import { SiFirefox } from "react-icons/si";
@@ -70,60 +67,6 @@ export default function Landing() {
     }
   ];
 
-  const faqs = [
-    {
-      question: "What poker variants does Poker Coach support?",
-      answer: "Poker Coach works best with Texas Hold'em screenshots from popular online poker platforms. The AI can recognize most standard table layouts and card designs."
-    },
-    {
-      question: "How accurate are the recommendations?",
-      answer: "Our AI provides solid fundamental strategy recommendations. While no tool can guarantee winning, our analysis helps you understand GTO concepts and improve your decision-making over time."
-    },
-    {
-      question: "Is my data secure?",
-      answer: "Yes. Screenshots are processed in real-time and are not permanently stored. We don't track your poker results or share any data with third parties."
-    },
-    {
-      question: "Can I use this during live play?",
-      answer: "Poker Coach is designed as a training and review tool. Please check your poker platform's terms of service regarding third-party assistance during play."
-    },
-    {
-      question: "Is there a browser extension?",
-      answer: "Yes! We offer extensions for both Chrome and Firefox. They let you capture and analyze hands with a single hotkey (Ctrl+Shift+P). The recommendation appears as an overlay directly in your browser."
-    }
-  ];
-
-  useEffect(() => {
-    const faqSchema = {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": faqs.map(faq => ({
-        "@type": "Question",
-        "name": faq.question,
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": faq.answer
-        }
-      }))
-    };
-
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.id = 'faqpage-schema';
-    script.text = JSON.stringify(faqSchema);
-    
-    const existing = document.getElementById('faqpage-schema');
-    if (existing) {
-      existing.remove();
-    }
-    document.head.appendChild(script);
-
-    return () => {
-      const el = document.getElementById('faqpage-schema');
-      if (el) el.remove();
-    };
-  }, []);
-
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <header className="sticky top-0 z-50 border-b bg-background">
@@ -153,7 +96,9 @@ export default function Landing() {
             <Link href="/wiki">
               <span className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer" data-testid="link-wiki">Wiki</span>
             </Link>
-            <a href="#faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors" data-testid="link-faq">FAQ</a>
+            <Link href="/faq">
+              <span className="text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer" data-testid="link-faq">FAQ</span>
+            </Link>
           </nav>
           <div className="flex items-center gap-3">
             <ThemeToggle />
@@ -382,34 +327,6 @@ export default function Landing() {
                 Launch Poker Coach
               </Button>
             </Link>
-          </div>
-        </section>
-
-        <section id="faq" className="py-20" data-testid="section-faq">
-          <div className="container max-w-4xl mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-faq-title">
-                Frequently Asked Questions
-              </h2>
-              <p className="text-lg text-muted-foreground">
-                Everything you need to know about Poker Coach.
-              </p>
-            </div>
-            <div className="space-y-4">
-              {faqs.map((faq, index) => (
-                <Card key={index} data-testid={`card-faq-${index}`}>
-                  <CardContent className="pt-6">
-                    <div className="flex gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                      <div>
-                        <h3 className="font-semibold mb-2">{faq.question}</h3>
-                        <p className="text-muted-foreground">{faq.answer}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
           </div>
         </section>
       </main>
