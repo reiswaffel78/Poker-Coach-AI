@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "Poker Coach",
+  "version": "1.0.0",
+  "description": "AI-powered poker training assistant - Analyze your game with a hotkey",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "poker-coach@replit.app",
+      "strict_min_version": "109.0"
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "notifications"
+  ],
+  "commands": {
+    "capture-and-analyze": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+P",
+        "mac": "Command+Shift+P"
+      },
+      "description": "Capture screenshot and analyze"
+    }
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "Poker Coach - Click to Analyze"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
