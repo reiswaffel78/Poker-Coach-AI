@@ -21,8 +21,10 @@ import {
   Chrome,
   Keyboard,
   MonitorPlay,
-  Download
+  Download,
+  Globe
 } from "lucide-react";
+import { SiFirefox } from "react-icons/si";
 
 export default function Landing() {
   const { t } = useTranslation();
@@ -86,8 +88,8 @@ export default function Landing() {
       answer: "Poker Coach is designed as a training and review tool. Please check your poker platform's terms of service regarding third-party assistance during play."
     },
     {
-      question: "Is there a Chrome extension?",
-      answer: "Yes! Our Chrome extension lets you capture and analyze hands with a single hotkey (Ctrl+Shift+P). The recommendation appears as an overlay directly in your browser."
+      question: "Is there a browser extension?",
+      answer: "Yes! We offer extensions for both Chrome and Firefox. They let you capture and analyze hands with a single hotkey (Ctrl+Shift+P). The recommendation appears as an overlay directly in your browser."
     }
   ];
 
@@ -264,11 +266,11 @@ export default function Landing() {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
                 <Badge variant="secondary" className="mb-4">
-                  <Chrome className="w-3 h-3 mr-1" />
-                  Browser Extension
+                  <Globe className="w-3 h-3 mr-1" />
+                  Browser Extensions
                 </Badge>
                 <h2 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-extension-title">
-                  Analyze Hands Instantly with Our Chrome Extension
+                  Analyze Hands Instantly with Our Browser Extensions
                 </h2>
                 <p className="text-lg text-muted-foreground mb-6">
                   No need to switch tabs or upload files. Press a hotkey and get AI recommendations 
@@ -303,15 +305,23 @@ export default function Landing() {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <Button size="lg" data-testid="button-download-zip" asChild>
-                    <a href="/api/extension/download" download="poker-coach-extension.zip">
-                      <Download className="w-5 h-5 mr-2" />
-                      Download Extension
-                    </a>
-                  </Button>
+                <div className="flex flex-col gap-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Button size="lg" data-testid="button-download-chrome" asChild>
+                      <a href="/api/extension/download" download="poker-coach-extension.zip">
+                        <Chrome className="w-5 h-5 mr-2" />
+                        Chrome Extension
+                      </a>
+                    </Button>
+                    <Button size="lg" variant="outline" data-testid="button-download-firefox" asChild>
+                      <a href="/api/firefox-extension/download" download="poker-coach-firefox-extension.zip">
+                        <SiFirefox className="w-5 h-5 mr-2" />
+                        Firefox Extension
+                      </a>
+                    </Button>
+                  </div>
                   <Link href="/extension-guide">
-                    <Button size="lg" variant="outline" data-testid="button-extension-guide">
+                    <Button size="lg" variant="ghost" className="w-full sm:w-auto" data-testid="button-extension-guide">
                       <HelpCircle className="w-5 h-5 mr-2" />
                       Installation Guide
                     </Button>
@@ -326,7 +336,7 @@ export default function Landing() {
                         <Spade className="w-8 h-8 text-primary-foreground" />
                       </div>
                       <h3 className="font-bold text-xl">Poker Coach Extension</h3>
-                      <p className="text-sm text-muted-foreground">Chrome Browser Extension</p>
+                      <p className="text-sm text-muted-foreground">Available for Chrome & Firefox</p>
                     </div>
                     <div className="bg-muted rounded-lg p-4 mb-4">
                       <div className="text-xs text-muted-foreground mb-2">Hotkey</div>
@@ -338,7 +348,17 @@ export default function Landing() {
                         <kbd className="px-2 py-1 bg-background rounded text-sm font-mono border">P</kbd>
                       </div>
                     </div>
-                    <div className="text-sm text-muted-foreground text-center">
+                    <div className="flex items-center justify-center gap-4 mt-4">
+                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                        <Chrome className="w-4 h-4" />
+                        Chrome
+                      </div>
+                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                        <SiFirefox className="w-4 h-4" />
+                        Firefox
+                      </div>
+                    </div>
+                    <div className="text-sm text-muted-foreground text-center mt-4">
                       Works with all major online poker platforms
                     </div>
                   </CardContent>

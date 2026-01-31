@@ -200,7 +200,7 @@ export async function registerRoutes(
     }
   });
 
-  // Download extension as ZIP
+  // Download Chrome extension as ZIP
   app.get("/api/extension/download", async (req, res) => {
     try {
       const extensionPath = path.join(process.cwd(), "extension");
@@ -228,6 +228,38 @@ export async function registerRoutes(
       console.error("Error creating extension ZIP:", error);
       if (!res.headersSent) {
         res.status(500).json({ error: "Failed to download extension" });
+      }
+    }
+  });
+
+  // Download Firefox extension as ZIP
+  app.get("/api/firefox-extension/download", async (req, res) => {
+    try {
+      const extensionPath = path.join(process.cwd(), "firefox-extension");
+      
+      if (!fs.existsSync(extensionPath)) {
+        return res.status(404).json({ error: "Firefox extension folder not found" });
+      }
+
+      res.setHeader("Content-Type", "application/zip");
+      res.setHeader("Content-Disposition", "attachment; filename=poker-coach-firefox-extension.zip");
+
+      const archive = archiver("zip", { zlib: { level: 9 } });
+      
+      archive.on("error", (err) => {
+        console.error("Archive error:", err);
+        if (!res.headersSent) {
+          res.status(500).json({ error: "Failed to create ZIP" });
+        }
+      });
+
+      archive.pipe(res);
+      archive.directory(extensionPath, "poker-coach-firefox-extension");
+      await archive.finalize();
+    } catch (error) {
+      console.error("Error creating Firefox extension ZIP:", error);
+      if (!res.headersSent) {
+        res.status(500).json({ error: "Failed to download Firefox extension" });
       }
     }
   });

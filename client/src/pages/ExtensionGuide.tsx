@@ -18,8 +18,10 @@ import {
   FolderOpen,
   ToggleLeft,
   FolderArchive,
-  MousePointer
+  MousePointer,
+  Globe
 } from "lucide-react";
+import { SiFirefox } from "react-icons/si";
 
 export default function ExtensionGuide() {
   useBreadcrumbSchema([{ name: "Extension Installation Guide", path: "/extension-guide" }]);
@@ -108,22 +110,39 @@ export default function ExtensionGuide() {
       <main className="container px-4 py-8 max-w-4xl mx-auto flex-1">
         <div className="mb-8">
           <Badge variant="secondary" className="mb-4">
-            <Chrome className="w-3 h-3 mr-1" />
-            Browser Extension
+            <Globe className="w-3 h-3 mr-1" />
+            Browser Extensions
           </Badge>
           <h1 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-page-title">
-            Chrome Extension Installation Guide
+            Browser Extension Installation Guide
           </h1>
           <p className="text-lg text-muted-foreground mb-6">
-            Follow these steps to install the Poker Coach Chrome extension and start analyzing hands with a single hotkey.
+            Follow these steps to install the Poker Coach extension for your browser and start analyzing hands with a single hotkey.
           </p>
-          <Button size="lg" data-testid="button-download-zip" asChild>
-            <a href="/api/extension/download" download="poker-coach-extension.zip">
-              <Download className="w-5 h-5 mr-2" />
-              Download Extension (ZIP)
-            </a>
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button size="lg" data-testid="button-download-chrome" asChild>
+              <a href="/api/extension/download" download="poker-coach-extension.zip">
+                <Chrome className="w-5 h-5 mr-2" />
+                Chrome Extension (ZIP)
+              </a>
+            </Button>
+            <Button size="lg" variant="outline" data-testid="button-download-firefox" asChild>
+              <a href="/api/firefox-extension/download" download="poker-coach-firefox-extension.zip">
+                <SiFirefox className="w-5 h-5 mr-2" />
+                Firefox Extension (ZIP)
+              </a>
+            </Button>
+          </div>
         </div>
+        
+        <Card className="mb-8 border-primary/20 bg-primary/5">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Chrome className="w-5 h-5" />
+              Chrome Installation
+            </CardTitle>
+          </CardHeader>
+        </Card>
 
         <div className="space-y-6 mb-12">
           {steps.map((step) => (
@@ -186,6 +205,52 @@ export default function ExtensionGuide() {
                 <p className="text-sm text-muted-foreground">
                   Click the extension icon to access settings and update the API URL if needed.
                 </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="mb-8 border-orange-500/20 bg-orange-500/5">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <SiFirefox className="w-5 h-5 text-orange-500" />
+              Firefox Installation
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-600 dark:text-orange-400 flex items-center justify-center text-sm font-bold shrink-0">1</div>
+              <div>
+                <p className="font-medium">Download the Firefox Extension</p>
+                <p className="text-sm text-muted-foreground">Click the "Firefox Extension (ZIP)" button above to download the extension files.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-600 dark:text-orange-400 flex items-center justify-center text-sm font-bold shrink-0">2</div>
+              <div>
+                <p className="font-medium">Extract the ZIP File</p>
+                <p className="text-sm text-muted-foreground">Find the downloaded file and extract it to a folder you'll remember.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-600 dark:text-orange-400 flex items-center justify-center text-sm font-bold shrink-0">3</div>
+              <div>
+                <p className="font-medium">Open Firefox Add-ons Page</p>
+                <p className="text-sm text-muted-foreground">Type <code className="px-1 py-0.5 bg-muted rounded text-xs">about:debugging#/runtime/this-firefox</code> in Firefox's address bar.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-600 dark:text-orange-400 flex items-center justify-center text-sm font-bold shrink-0">4</div>
+              <div>
+                <p className="font-medium">Load Temporary Add-on</p>
+                <p className="text-sm text-muted-foreground">Click "Load Temporary Add-on..." and select the <code className="px-1 py-0.5 bg-muted rounded text-xs">manifest.json</code> file from the extracted folder.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-600 dark:text-orange-400 flex items-center justify-center text-sm font-bold shrink-0">5</div>
+              <div>
+                <p className="font-medium">Configure API URL</p>
+                <p className="text-sm text-muted-foreground">Click the Poker Coach extension icon and set the API URL to: <code className="px-1 py-0.5 bg-muted rounded text-xs">https://poker-coach-ai.replit.app</code></p>
               </div>
             </div>
           </CardContent>
