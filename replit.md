@@ -35,6 +35,16 @@ Preferred communication style: Simple, everyday language.
   - Storage sync for persistent settings
 - **Manifest Version**: 3 (Chrome MV3)
 - **Installation**: Load unpacked extension from `extension/` folder in chrome://extensions
+- **Download**: `/api/extension/download` serves ZIP file
+
+### Firefox Extension
+- **Location**: `firefox-extension/` folder
+- **Features**: Same as Chrome extension (hotkey, overlay, popup, settings)
+- **API**: Uses `browser.*` API (Firefox WebExtensions API) instead of `chrome.*`
+- **Manifest Version**: 3 with Firefox-specific settings (gecko.id)
+- **Background Script**: Uses `background.scripts` array instead of `service_worker`
+- **Installation**: Load temporary add-on from about:debugging#/runtime/this-firefox
+- **Download**: `/api/firefox-extension/download` serves ZIP file
 
 ### Data Storage
 - **ORM**: Drizzle ORM with PostgreSQL dialect
@@ -62,7 +72,7 @@ Preferred communication style: Simple, everyday language.
 - `/spots` - Programmatic SEO spot pages index (longtail poker scenarios)
 - `/spots/:slug` - Individual spot page with scenario, action table, AI solution, exploits
 - `/guide` - User guide for using the tool
-- `/extension-guide` - Chrome extension installation guide
+- `/extension-guide` - Browser extension installation guide (Chrome & Firefox)
 - `/privacy` - Privacy policy
 - `/terms` - Terms of service
 
@@ -123,6 +133,13 @@ extension/        # Chrome Browser Extension
   overlay.css     # Overlay styling
   popup.html/js   # Extension popup UI
   icons/          # Extension icons (16, 48, 128px)
+firefox-extension/ # Firefox Browser Extension
+  manifest.json   # Firefox MV3 with gecko settings
+  background.js   # Background script (browser.* API)
+  content.js      # Content script for overlay
+  overlay.css     # Overlay styling
+  popup.html/js   # Extension popup UI
+  icons/          # Extension icons
 public/           # Static assets
   og-image.png    # OpenGraph image for social sharing
   sitemap.xml     # SEO sitemap
