@@ -7,13 +7,21 @@ import path from "path";
 import fs from "fs";
 import { pokerAnalysisSchema } from "@shared/schema";
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.AI_INTEGRATIONS_GEMINI_API_KEY,
-  httpOptions: {
-    apiVersion: "",
-    baseUrl: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL,
-  },
-});
+function getGeminiClient(customApiKey?: string) {
+  const apiKey = customApiKey?.trim() || process.env.AI_INTEGRATIONS_GEMINI_API_KEY;
+
+  if (!apiKey) {
+    throw new Error("GEMINI_API_KEY_MISSING");
+  }
+
+  return new GoogleGenAI({
+    apiKey,
+    httpOptions: {
+      apiVersion: "",
+      baseUrl: process.env.AI_INTEGRATIONS_GEMINI_BASE_URL,
+    },
+  });
+}
 
 const POKER_ANALYSIS_PROMPT = `You are an expert poker coach. Analyze this screenshot and recommend the optimal action.
 
@@ -69,7 +77,7 @@ export async function registerRoutes(
   // Analyze screenshot with Gemini
   app.post("/api/analyze", async (req, res) => {
     try {
-      const { image, mode = "normal" } = req.body;
+      const { image, mode = "normal", providerApiKey } = req.body;
       
       if (!image) {
         return res.status(400).json({ error: "Image data is required" });
@@ -93,7 +101,8 @@ export async function registerRoutes(
       }
 
       // Use Gemini for vision analysis
-      const response = await ai.models.generateContent({
+      const geminiClient = getGeminiClient(providerApiKey);
+      const response = await geminiClient.models.generateContent({
         model: "gemini-2.5-flash",
         contents: [
           {
@@ -184,6 +193,8 @@ export async function registerRoutes(
         
         if (error.message.includes("rate limit") || error.message.includes("429") || error.message.includes("RATELIMIT")) {
           errorMessage = "Zu viele Anfragen - bitte warte kurz";
+        } else if (error.message.includes("GEMINI_API_KEY_MISSING")) {
+          errorMessage = "Kein Gemini API-Key gefunden. Bitte füge deinen eigenen API-Key in der Browser-Extension ein.";
         } else if (error.message.includes("API key") || error.message.includes("authentication") || error.message.includes("Unauthorized")) {
           errorMessage = "API-Konfigurationsfehler";
         } else if (error.message.includes("JSON")) {

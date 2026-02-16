@@ -1,0 +1,28 @@
+# Poker Coach AI
+
+> AI-powered poker training assistant for screenshot-based hand analysis, strategy learning, and browser-extension workflows.
+
+## Canonical site
+- https://poker-coach-ai.replit.app/
+
+## Key pages
+- Home: https://poker-coach-ai.replit.app/
+- Web App: https://poker-coach-ai.replit.app/app
+- Browser Extension Guide: https://poker-coach-ai.replit.app/extension-guide
+- Poker Wiki: https://poker-coach-ai.replit.app/wiki
+- Poker Spots: https://poker-coach-ai.replit.app/spots
+- Poker Ranges: https://poker-coach-ai.replit.app/ranges
+- FAQ: https://poker-coach-ai.replit.app/faq
+
+## Product summary
+Poker Coach AI helps players review poker screenshots and get structured recommendations (fold/check/call/raise/all-in), with confidence and reasoning. The project includes a web app plus Chrome/Firefox extensions.
+
+## API usage notes
+- Extensions can be configured with a custom API server URL.
+- Extensions also support a user-provided Gemini API key for independent usage and billing control.
+
+## Content focus / entities
+- Texas Hold'em strategy
+- GTO-inspired recommendations
+- Pot odds, stack depth, position
+- Browser extension UX for hand review

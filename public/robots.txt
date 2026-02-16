@@ -5,3 +5,7 @@ Sitemap: https://poker-coach-ai.replit.app/sitemap.xml
 
 # Disallow API endpoints
 Disallow: /api/
+
+# AI discovery
+Allow: /llms.txt
+

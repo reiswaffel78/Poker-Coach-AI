@@ -75,9 +75,9 @@ export default function ExtensionGuide() {
     {
       number: 7,
       title: "Configure the API URL",
-      description: "Click the Poker Coach extension icon in your toolbar. In the popup, you'll see a settings field for the API URL. Enter: https://poker-coach-ai.replit.app and click Save.",
+      description: "Click the Poker Coach extension icon in your toolbar. In the popup, set API URL to your server (for example: https://poker-coach-ai.replit.app). Then optionally paste your own Gemini API key and click Save.",
       icon: Settings,
-      details: "This connects the extension to our analysis server. Without this, the extension won't be able to analyze your screenshots."
+      details: "Your own API key gives you full control over limits and billing. Without API URL and valid key setup, analysis will fail."
     }
   ];
 
@@ -203,7 +203,7 @@ export default function ExtensionGuide() {
               <div>
                 <p className="font-medium">Adjust Settings</p>
                 <p className="text-sm text-muted-foreground">
-                  Click the extension icon to access settings and update the API URL if needed.
+                  Click the extension icon to access settings and update the API URL or your personal Gemini API key anytime.
                 </p>
               </div>
             </div>
@@ -250,7 +250,7 @@ export default function ExtensionGuide() {
               <div className="w-8 h-8 rounded-full bg-orange-500/20 text-orange-600 dark:text-orange-400 flex items-center justify-center text-sm font-bold shrink-0">5</div>
               <div>
                 <p className="font-medium">Configure API URL</p>
-                <p className="text-sm text-muted-foreground">Click the Poker Coach extension icon and set the API URL to: <code className="px-1 py-0.5 bg-muted rounded text-xs">https://poker-coach-ai.replit.app</code></p>
+                <p className="text-sm text-muted-foreground">Click the Poker Coach extension icon and set API URL to <code className="px-1 py-0.5 bg-muted rounded text-xs">https://poker-coach-ai.replit.app</code>. Optionally paste your own Gemini API key and save.</p>
               </div>
             </div>
           </CardContent>

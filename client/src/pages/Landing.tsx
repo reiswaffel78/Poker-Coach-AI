@@ -22,6 +22,7 @@ import {
   Globe
 } from "lucide-react";
 import { SiFirefox } from "react-icons/si";
+import { Helmet } from "react-helmet-async";
 
 export default function Landing() {
   const { t } = useTranslation();
@@ -69,6 +70,28 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <Helmet>
+        <title>Poker Coach AI | Poker Training, Browser Extension & API Guide</title>
+        <meta name="description" content="Poker Coach AI hilft dir bei Poker-Analysen mit KI. Inklusive Browser-Extension, einfacher API-Einrichtung und kinderleichter Schritt-für-Schritt-Anleitung." />
+        <meta name="keywords" content="poker coach ai, poker training, gemini api key, poker browser extension, poker analyse tool, gto trainer" />
+        <meta property="og:title" content="Poker Coach AI | Einfaches KI-Pokertraining" />
+        <meta property="og:description" content="Analysiere Poker-Hände per Screenshot. Nutze deine eigene API und richte alles in wenigen Minuten ein." />
+        <meta property="og:url" content="https://poker-coach-ai.replit.app/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://poker-coach-ai.replit.app/og-image.png" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Poker Coach AI",
+          url: "https://poker-coach-ai.replit.app/",
+          potentialAction: {
+            "@type": "SearchAction",
+            target: "https://poker-coach-ai.replit.app/wiki",
+            "query-input": "required name=search_term_string"
+          },
+          about: ["Poker Training", "Texas Hold'em Strategy", "AI Analysis"]
+        })}</script>
+      </Helmet>
       <header className="sticky top-0 z-50 border-b bg-background">
         <div className="container max-w-6xl mx-auto flex h-16 items-center justify-between gap-4 px-4">
           <div className="flex items-center gap-3">
@@ -309,6 +332,60 @@ export default function Landing() {
                   </CardContent>
                 </Card>
               </div>
+            </div>
+          </div>
+        </section>
+
+
+        <section className="py-20" id="api-guide" data-testid="section-api-guide">
+          <div className="container max-w-4xl mx-auto px-4">
+            <div className="text-center mb-10">
+              <Badge variant="secondary" className="mb-4">
+                <Globe className="w-3 h-3 mr-1" />
+                Super einfache Anleitung
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                So erstellst du deinen eigenen API-Key (wie für 4. Klasse erklärt)
+              </h2>
+              <p className="text-muted-foreground text-lg">
+                Stell dir vor: Der API-Key ist wie ein geheimer Haustür-Schlüssel für deine KI.
+                Nur mit diesem Schlüssel darf die Extension Antworten holen.
+              </p>
+            </div>
+
+            <div className="grid gap-4">
+              {[
+                "1) Öffne im Browser die Seite aistudio.google.com und logge dich ein.",
+                "2) Drücke auf 'Get API key' und danach auf 'Create API key'.",
+                "3) Kopiere den Schlüssel (lange Buchstaben-Zahlen-Kette).",
+                "4) Öffne die Poker Coach Extension in Chrome oder Firefox.",
+                "5) Trage bei API Server deine URL ein (z.B. https://deine-domain.de).",
+                "6) Trage bei Gemini API-Key deinen kopierten Schlüssel ein.",
+                "7) Klicke auf Speichern. Wenn der Punkt grün ist, klappt alles!"
+              ].map((step) => (
+                <Card key={step}>
+                  <CardContent className="p-4 text-base leading-relaxed">{step}</CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <Card className="mt-6 border-primary/30">
+              <CardContent className="p-5">
+                <p className="font-semibold mb-2">Extra Tipp für Kinderleicht-UX:</p>
+                <p className="text-muted-foreground">
+                  Wenn etwas nicht klappt: zuerst URL prüfen, dann API-Key nochmal neu kopieren (ohne Leerzeichen),
+                  danach einmal auf "Speichern" klicken und 5 Sekunden warten.
+                </p>
+              </CardContent>
+            </Card>
+
+            <div className="text-center mt-6">
+              <Link href="/extension-guide">
+                <Button variant="outline" size="lg">
+                  Zur kompletten Plugin-Anleitung
+                  <ChevronRight className="w-4 h-4 ml-2" />
+                </Button>
+              </Link>
             </div>
           </div>
         </section>
