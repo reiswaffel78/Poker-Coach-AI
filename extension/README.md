@@ -17,8 +17,9 @@ KI-gestützter Poker-Trainingsassistent als Browser-Erweiterung.
 2. Gib die URL deines Poker Coach Servers ein:
    - Lokal: `http://localhost:5000`
    - Deployed: Die URL deiner Replit-App
-3. Klicke auf **Speichern**
-4. Der grüne Punkt zeigt an, dass die Verbindung funktioniert
+3. (Optional) Füge deinen eigenen **Gemini API-Key** ein
+4. Klicke auf **Speichern**
+5. Der grüne Punkt zeigt an, dass die Verbindung funktioniert
 
 ## Verwendung
 
@@ -56,3 +57,15 @@ KI-gestützter Poker-Trainingsassistent als Browser-Erweiterung.
 ### Screenshot zeigt falsche Seite
 - Der Screenshot erfasst immer den sichtbaren Bereich des aktiven Tabs
 - Stelle sicher, dass das Poker-Spiel vollständig sichtbar ist
+
+
+### Eigener API-Key (empfohlen)
+
+Du kannst deinen eigenen Gemini API-Key direkt im Extension-Popup hinterlegen.
+
+Vorteile:
+- Eigene Limits und Abrechnung
+- Unabhängigkeit von zentraler Server-Konfiguration
+- Schnellere Fehlerdiagnose bei API-Problemen
+
+Der Key wird lokal in deiner Browser-Sync-Storage gespeichert und bei jeder Analyse sicher an deinen API-Server übertragen.

@@ -5,13 +5,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   const apiUrlInput = document.getElementById("apiUrl");
   const saveBtn = document.getElementById("saveBtn");
   const connectionStatus = document.getElementById("connectionStatus");
+  const providerApiKeyInput = document.getElementById("providerApiKey");
   const errorLogSection = document.getElementById("errorLogSection");
   const errorCountSpan = document.getElementById("errorCount");
   
-  const response = await browser.runtime.sendMessage({ action: "getApiUrl" });
+  const response = await browser.runtime.sendMessage({ action: "getSettings" });
   if (response && response.apiUrl) {
     apiUrlInput.value = response.apiUrl;
     checkConnection(response.apiUrl);
+  }
+  if (response && response.providerApiKey) {
+    providerApiKeyInput.value = response.providerApiKey;
   }
   
   const errorResponse = await browser.runtime.sendMessage({ action: "getErrorCount" });
@@ -49,18 +53,29 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   saveBtn.addEventListener("click", async () => {
     const url = apiUrlInput.value.trim();
+    const providerApiKey = providerApiKeyInput.value.trim();
     if (!url) {
       showError("Please enter a URL");
       return;
     }
-    
+
     updateConnectionStatus("checking", "Saving...");
-    
-    await browser.runtime.sendMessage({ action: "setApiUrl", url });
+
+    await browser.runtime.sendMessage({
+      action: "setSettings",
+      settings: { apiUrl: url, providerApiKey }
+    });
     checkConnection(url);
+    statusDiv.innerHTML = `<div class="status success">Settings saved</div>`;
   });
   
   apiUrlInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      saveBtn.click();
+    }
+  });
+
+  providerApiKeyInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       saveBtn.click();
     }

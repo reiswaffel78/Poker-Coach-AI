@@ -46,13 +46,16 @@ async function compressImage(dataUrl) {
   });
 }
 
-async function getApiUrl() {
-  const result = await chrome.storage.sync.get(["apiUrl"]);
-  return result.apiUrl || "http://localhost:5000";
+async function getSettings() {
+  const result = await chrome.storage.sync.get(["apiUrl", "providerApiKey"]);
+  return {
+    apiUrl: result.apiUrl || "http://localhost:5000",
+    providerApiKey: result.providerApiKey || "",
+  };
 }
 
-async function setApiUrl(url) {
-  await chrome.storage.sync.set({ apiUrl: url });
+async function setSettings(settings) {
+  await chrome.storage.sync.set(settings);
 }
 
 chrome.commands.onCommand.addListener(async (command) => {
@@ -66,12 +69,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     captureAndAnalyze().then(sendResponse);
     return true;
   }
+  if (request.action === "getSettings") {
+    getSettings().then((settings) => sendResponse(settings));
+    return true;
+  }
+  if (request.action === "setSettings") {
+    setSettings(request.settings || {}).then(() => sendResponse({ success: true }));
+    return true;
+  }
   if (request.action === "getApiUrl") {
-    getApiUrl().then(url => sendResponse({ apiUrl: url }));
+    getSettings().then((settings) => sendResponse({ apiUrl: settings.apiUrl }));
     return true;
   }
   if (request.action === "setApiUrl") {
-    setApiUrl(request.url).then(() => sendResponse({ success: true }));
+    setSettings({ apiUrl: request.url }).then(() => sendResponse({ success: true }));
     return true;
   }
   if (request.action === "downloadErrorLog") {
@@ -90,7 +101,7 @@ async function captureAndAnalyze() {
   let tabId = null;
   
   try {
-    const apiUrl = await getApiUrl();
+    const { apiUrl, providerApiKey } = await getSettings();
     console.log("Using API URL:", apiUrl);
     
     if (!apiUrl) {
@@ -137,7 +148,10 @@ async function captureAndAnalyze() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ image: screenshotDataUrl })
+      body: JSON.stringify({
+        image: screenshotDataUrl,
+        providerApiKey: providerApiKey || undefined,
+      })
     });
     
     console.log("Response status:", response.status);
