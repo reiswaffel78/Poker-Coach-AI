@@ -80,7 +80,10 @@ def ensure_path() -> None:
         try:
             with open(env_file, "a", encoding="utf-8") as f:
                 for d in added:
-                    f.write(f'export PATH="{d.as_posix()}:$PATH"\n')
+                    p = d.as_posix()
+                    if os.name == "nt" and len(p) > 1 and p[1] == ":":
+                        p = "/" + p[0].lower() + p[2:]  # Git Bash form: C:/x -> /c/x
+                    f.write(f'export PATH="{p}:$PATH"\n')
         except OSError:
             pass
 
