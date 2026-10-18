@@ -27,7 +27,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "cd \"$CLAUDE_PROJECT_DIR\" && { python3 .graphify/bootstrap.py 2>/dev/null || python .graphify/bootstrap.py; }",
+            "command": "python3 .graphify/bootstrap.py || python .graphify/bootstrap.py",
             "timeout": 900
           }
         ]
