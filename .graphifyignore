@@ -1,0 +1,10 @@
+# graphify-kit:start
+# Agent configuration is not part of the codebase graph.
+CLAUDE.md
+AGENTS.md
+.claude/
+.agents/
+.cursor/
+.graphify/
+.mcp.json
+# graphify-kit:end
